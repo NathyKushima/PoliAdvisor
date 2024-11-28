@@ -1,0 +1,62 @@
+.home {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #F1FAEE;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #1D3557;
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
+  .disciplines {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .card {
+    background-color: #FFFFFF;
+    border: 2px solid #A8DADC;
+    border-radius: 10px;
+    padding: 20px;
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .card h3 {
+    color: #1D3557;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .card p {
+    color: #457B9D;
+    margin: 5px 0;
+    font-size: 0.9rem;
+  }
+  
+  .comments-button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #1D3557;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .comments-button:hover {
+    background-color: #457B9D;
+  }
+  
+  .comments-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #A8DADC;
+  }
+  
