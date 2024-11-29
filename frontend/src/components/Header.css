@@ -65,7 +65,8 @@
 }
 
 .search-button:hover .search-icon {
-    color: #1e4174; 
+    color: #1e4174;
+    font-weight: bold; 
 }
   
   .login-button .login {
@@ -88,4 +89,26 @@
     background-color: white;
     color: #dda94b; 
     font-weight: bold;
+}
+
+.suggestions-list {
+  position: absolute;
+  background: black;
+  border: 1px solid red;
+  max-height: 200px;
+  overflow-y: auto;
+  width: calc(100% - 20px);
+  margin: 5px 0 0;
+  list-style: none;
+  padding: 0;
+  z-index: 1000;
+}
+
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: black;
 }

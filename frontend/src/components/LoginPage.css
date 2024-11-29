@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+  }
+  
+  .login-container {
+    background: white;
+    padding: 30px;
+    max-width: 400px;
+    border:4px solid #dda94b;
+    border-radius: 60px;
+    width: 100%;
+    text-align: center;
+    width: 350px;
+    height: 480px;
+  }
+  
+  .login-container h1 {
+    margin-bottom: 20px;
+    color: #dda94b;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 3.8rem;
+    margin-top: 8px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+    border:4px solid #dda94b;
+    border-radius: 60px;
+    padding: 5px 80px; 
+  }
+
+  .header-container {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    border-radius: 60px;
+  }
+    
+  .logo-image {
+    width: 65px;
+    height: 65px;
+    margin-right: -90px;
+    margin-left: 20px;
+    margin-bottom: 85px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 1px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .form-group input {
+    border-radius: 50px;
+    font-size: 15px;
+    border: none;
+    padding: 10px 75px;
+    background-color: white;
+    font-family: 'JetBrains Mono', monospace;
+    margin-left: -75px;
+  }
+  
+  .btn-login {
+    width: 100%;
+    padding: 10px;
+    background-color: #1e4174ff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 50px;
+    font-weight: bold; 
+  }
+  
+  .btn-login:hover {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    color: #1e4174ff;
+    border: 1px solid #1e4174ff;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 50px;
+    font-weight: bold; 
+  }
+  
+  .login-options {
+    margin-top: 15px;
+  }
+  
+  .btn-new {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    color: #1e4174ff;
+    border: 3px solid #1e4174ff;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 50px;
+    margin-top: 10px;
+    font-weight: bold; 
+  }
+
+  .btn-passoword {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    color: rgb(108, 121, 128);
+    border: 3px solid rgb(108, 121, 128);
+    cursor: pointer;
+    font-size: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 50px;
+    margin-top: 10px;
+    font-weight: bold; 
+ }
+  
+  .btn-secondary:hover {
+    text-decoration: underline;
+  }
+  

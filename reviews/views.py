@@ -1,6 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import JsonResponse
+from django.db.models import Q
+from .models import Department, Discipline
 from django.contrib.auth.decorators import login_required
 from .models import UserTookDiscipline
 from .models import User
@@ -44,3 +47,23 @@ def get_user_info(request):
         'photo': user_data.user_photo.url if user_data.user_photo else None,
         'initials': user_data.initials() 
     })
+
+def search(request):
+    query = request.GET.get('q', '')
+    if query:
+        departments = Department.objects.filter(
+            Q(department_code__icontains=query) | Q(department_name__icontains=query)
+        ).values('id', 'department_code', 'department_name')
+
+        disciplines = Discipline.objects.filter(
+            Q(discipline_code__icontains=query) | Q(name__icontains=query)
+        ).values('id', 'discipline_code', 'name')
+
+        results = {
+            'departments': list(departments),
+            'disciplines': list(disciplines),
+        }
+    else:
+        results = {'departments': [], 'disciplines': []}
+
+    return JsonResponse(results)
