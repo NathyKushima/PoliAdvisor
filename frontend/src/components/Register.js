@@ -90,7 +90,7 @@ const Register = () => {
           placeholder="Nome de usuário"
           onChange={handleChange}
         />
-                <div>
+        <div>
           <label>Curso:</label>
           <select name="course" value={formData.course} onChange={handleChange}>
             <option value="">Selecione o curso</option>
