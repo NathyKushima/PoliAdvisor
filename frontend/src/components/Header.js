@@ -8,7 +8,6 @@ const Header = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
-  // Função para buscar sugestões da API
   const handleSearch = async (e) => {
     const searchValue = e.target.value;
     setQuery(searchValue);
@@ -48,7 +47,7 @@ const Header = () => {
     <header className="header">
       <div className="logo">
         <img src={logo} alt="Poli Advisor" className="logo-image" />
-        <h1>Poli Advisor</h1>
+        <h1 id="logo-button" className="buton-Logo">Poli Advisor</h1>
       </div>
       <div className="search-bar">
         <input

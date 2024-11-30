@@ -1,15 +1,39 @@
 from django.db import models
 
 class User(models.Model):
+
+    COURSE_CHOICES = [
+        ('ENG_AMBIENTAL', 'Engenharia Ambiental'),
+        ('ENG_CIVIL', 'Engenharia Civil'),
+        ('ENG_COMPUTACAO', 'Engenharia da Computação'),
+        ('ENG_MINAS', 'Engenharia de Minas'),
+        ('ENG_PETROLEO', 'Engenharia de Petróleo'),
+        ('ENG_NAVAL', 'Engenharia Naval'),
+        ('ENG_METALURGICA', 'Engenharia Metalúrgica'),
+        ('ENG_PRODUCAO', 'Engenharia de Produção'),
+        ('ENG_ELETRICA', 'Engenharia Elétrica'),
+        ('ENG_MECANICA', 'Engenharia Mecânica'),
+        ('ENG_MECATRONICA', 'Engenharia Mecatrônica'),
+        ('ENG_QUIMICA', 'Engenharia Química'),
+        ('ENG_MATERIAIS', 'Engenharia de Materiais'),
+    ]
+
     id = models.AutoField(primary_key=True)
     nusp = models.IntegerField(unique=True)
     fullname = models.CharField(max_length=45)
     username = models.CharField(max_length=45)
+    start_date = models.DateField()
     emailUSP = models.EmailField(max_length=45, unique=True)
     hashed_password = models.CharField(max_length=126)
-    user_type = models.IntegerField()
+    status_user = models.IntegerField(default=1) 
     user_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
     status_user = models.IntegerField()
+
+    course = models.CharField(
+        max_length=20, 
+        choices=COURSE_CHOICES,
+        default='ENG_MECATRONICA',
+    )
 
     def __str__(self):
         return self.fullname

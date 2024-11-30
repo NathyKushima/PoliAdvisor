@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from .models import UserTookDiscipline
 from .models import User
 from django.db.models import Avg, Count
+from rest_framework import status
+from .serializers import UserSerializer
 
 class BestDisciplinesAPIView(APIView):
     def get(self, request):
@@ -67,3 +69,19 @@ def search(request):
         results = {'departments': [], 'disciplines': []}
 
     return JsonResponse(results)
+    
+class UserCreateView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Usuário criado com sucesso!"}, status=status.HTTP_201_CREATED)
+        return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserRegisterView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Usuário registrado com sucesso!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

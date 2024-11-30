@@ -13,6 +13,10 @@
     max-height: 65px;
   }
   
+  .buton-Logo {
+    margin-left: 120px;
+  }
+
   .logo {
     display: flex;
     align-items: center;
@@ -23,6 +27,7 @@
     height: 65px;
     margin-right: 30px;
     margin-left: 60px;
+    margin-top: 85px;
   }
   
   .search-bar {
@@ -66,7 +71,7 @@
 
 .search-button:hover .search-icon {
     color: #1e4174;
-    font-weight: bold; 
+    font-weight: bold;
 }
   
   .login-button .login {
