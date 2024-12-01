@@ -16,45 +16,48 @@ const DisciplineDetail = ({ disciplineId }) => {
     return <p>Loading...</p>;
   }
 
-  // Função para gerar os dados do gráfico
-  const generateChartData = (label, value) => ({
-    labels: ["2024"], // Anos como labels
+  const data = {
+    labels: ["2024"],
     datasets: [
       {
-        label: label,
-        data: [value], // Valor da média
-        borderColor: "rgba(75,192,192,1)",
-        backgroundColor: "rgba(75,192,192,0.4)",
-        tension: 0.4,
+        label: "Didática",
+        data: [discipline.avg_teaching],
+        borderColor: "blue",
+        backgroundColor: "rgba(0, 0, 255, 0.3)",
+      },
+      {
+        label: "Material",
+        data: [discipline.avg_material],
+        borderColor: "green",
+        backgroundColor: "rgba(0, 255, 0, 0.3)",
+      },
+      {
+        label: "Dificuldade",
+        data: [discipline.avg_difficulty],
+        borderColor: "red",
+        backgroundColor: "rgba(255, 0, 0, 0.3)",
+      },
+      {
+        label: "Avaliação Geral",
+        data: [discipline.avg_overall],
+        borderColor: "purple",
+        backgroundColor: "rgba(128, 0, 128, 0.3)",
       },
     ],
-  });
+  };
 
   return (
     <div>
-      <h1>
-        {discipline.name} ({discipline.discipline_code})
-      </h1>
+      <h1>{discipline.name} ({discipline.discipline_code})</h1>
       <button onClick={() => alert("Função para avaliar ainda não implementada!")}>
         Avaliar
       </button>
       <h3>Médias de 2024</h3>
-      <div>
-        <h4>Didática:</h4>
-        <Line data={generateChartData("Didática", discipline.avg_teaching)} />
-      </div>
-      <div>
-        <h4>Material:</h4>
-        <Line data={generateChartData("Material", discipline.avg_material)} />
-      </div>
-      <div>
-        <h4>Dificuldade:</h4>
-        <Line data={generateChartData("Dificuldade", discipline.avg_difficulty)} />
-      </div>
-      <div>
-        <h4>Avaliação Geral:</h4>
-        <Line data={generateChartData("Avaliação Geral", discipline.avg_overall)} />
-      </div>
+      <p>Didática: {discipline.avg_teaching}</p>
+      <p>Material: {discipline.avg_material}</p>
+      <p>Dificuldade: {discipline.avg_difficulty}</p>
+      <p>Avaliação Geral: {discipline.avg_overall}</p>
+      <Line data={data} />
     </div>
   );
 };
