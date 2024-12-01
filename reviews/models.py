@@ -1,7 +1,56 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import BaseUserManager
 
-class User(models.Model):
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, email, password, nusp, fullname, course, start_date, **extra_fields):
+        # Set default values for mandatory fields if not provided
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
 
+        if not username:
+            raise ValueError('The Username field must be set')
+        if not email:
+            raise ValueError('The Email field must be set')
+        if not nusp:
+            raise ValueError('The NUSP field must be set')
+        if not fullname:
+            raise ValueError('The Fullname field must be set')
+        if not course:
+            raise ValueError('The Course field must be set')
+        if not start_date:
+            raise ValueError('The Start Date field must be set')
+
+        user = self.model(
+            username=username,
+            email=self.normalize_email(email),
+            nusp=nusp,
+            fullname=fullname,
+            course=course,
+            start_date=start_date,
+            **extra_fields
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+    
+    def create_superuser(self, username, email, password, **extra_fields):
+        # Set default values for mandatory fields if not provided
+        extra_fields.setdefault('fullname', 'Superuser Fullname')
+        extra_fields.setdefault('start_date', '2024-01-01')
+        extra_fields.setdefault('course', 'ENG_MECATRONICA')
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('nusp', 12345678)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self.create_user(username, email, password, **extra_fields)
+
+class User(AbstractUser):
     COURSE_CHOICES = [
         ('ENG_AMBIENTAL', 'Engenharia Ambiental'),
         ('ENG_CIVIL', 'Engenharia Civil'),
@@ -18,29 +67,19 @@ class User(models.Model):
         ('ENG_MATERIAIS', 'Engenharia de Materiais'),
     ]
 
-    id = models.AutoField(primary_key=True)
+    objects = CustomUserManager()
     nusp = models.IntegerField(unique=True)
-    fullname = models.CharField(max_length=45)
-    username = models.CharField(max_length=45)
+    fullname = models.CharField(max_length=100)
+    course = models.CharField(max_length=20, choices=COURSE_CHOICES, default='ENG_MECATRONICA')
     start_date = models.DateField()
-    emailUSP = models.EmailField(max_length=45, unique=True)
-    hashed_password = models.CharField(max_length=126)
-    status_user = models.IntegerField(default=1) 
     user_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
-    status_user = models.IntegerField()
 
-    course = models.CharField(
-        max_length=20, 
-        choices=COURSE_CHOICES,
-        default='ENG_MECATRONICA',
-    )
+    def initials(self):
+        names = self.fullname.split()
+        return ''.join([name[0].upper() for name in names[:2]]) if len(names) >= 2 else names[0][0].upper()
 
     def __str__(self):
         return self.fullname
-    
-    def initials(self):
-        names = self.fullname.split()
-        return ''.join([name[0].upper() for name in names[:2]])
 
 class Department(models.Model):
     id = models.AutoField(primary_key=True)

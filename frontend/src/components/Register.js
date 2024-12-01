@@ -10,7 +10,7 @@ const Register = () => {
     username: "",
     course: "",
     start_date: "",
-    emailUSP: "",
+    email: "",
     password: "",
     confirm_password: "",
     status_user: 1,
@@ -34,7 +34,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.fullname || !formData.username || !formData.emailUSP || 
+    if (!formData.fullname || !formData.username || !formData.email || 
         !formData.password || !formData.confirm_password || 
         !formData.course || !formData.start_date) {
       setMessage("Por favor, preencha todos os campos obrigatórios.");
@@ -117,7 +117,7 @@ const Register = () => {
         />
         <input
           type="email"
-          name="emailUSP"
+          name="email"
           placeholder="Email USP"
           onChange={handleChange}
         />

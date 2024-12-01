@@ -78,6 +78,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'PoliAdvisor.wsgi.application'
 
+AUTH_USER_MODEL = 'reviews.User'
+
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
