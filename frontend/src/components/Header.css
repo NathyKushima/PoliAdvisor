@@ -2,35 +2,37 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1e4174ff; 
-    padding: 3px 6px;
-    color: #dda94b;
-    font-family: 'Work Sans', sans-serif;
-    font-size: 2rem;
-    max-height: 65px;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e4174ff; 
+  padding: 3px 6px;
+  color: #dda94b;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 2rem;
+  max-height: 70px;
+}
   
-  .buton-Logo {
-    margin-left: 120px;
+  .button-Logo {
+    margin-left: 0px;
   }
 
   .logo {
     display: flex;
     align-items: center;
+    gap: 30px;
   }
   
   .logo-image {
-    width: 65px;
-    height: 65px;
-    margin-right: 30px;
+    width: 70px;
+    height: 50px;
+    margin-right: 0px;
     margin-left: 60px;
-    margin-top: 85px;
   }
   
   .search-bar {
+    position: relative;
+    right: 0px;
     display: flex;
     align-items: center;
     background-color: white; 
@@ -39,8 +41,10 @@
     padding: 5px 80px; 
     width: fit-content;
     height: 27px;
-    margin-left: 50px;
+    margin-left: 0px;
+    margin-right: 335px;
     }
+
 
   .search-input {
     padding: 8px 12px;
@@ -95,6 +99,21 @@
     color: #dda94b; 
     font-weight: bold;
 }
+.perfil{
+  margin-left: -168px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 2rem;
+}
+
+.perfil-image{
+  width: 70px;
+  height: 50px;
+  margin-right: 60px;
+  margin-left: 20px;
+}
 
 .suggestions-list {
   position: absolute;
@@ -116,4 +135,15 @@
 
 .suggestion-item:hover {
   background-color: black;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo-image {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: #dda94b;
 }
