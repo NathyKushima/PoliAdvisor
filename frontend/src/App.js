@@ -1,17 +1,21 @@
-import logo from './logo_Poliadvisor.png';
 import './App.css';
 import React from 'react';
 import Header from './components/Header.js';
-import LoginPage from './components/LoginPage';
-import Register from './components/Register.js';
+import LoginPage from './pages/LoginPage.js';
+import Register from './pages/Register.js';
+import DisciplinePage from './pages/DisciplinePage.jsx';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Register />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/discipline/:1" element={<DisciplinePage />} />
+      </Routes>
+    </Router>
   );
-}
+};
+
 
 export default App;
 

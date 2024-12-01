@@ -1,7 +1,6 @@
 from django.db import models
 
 class User(models.Model):
-
     COURSE_CHOICES = [
         ('ENG_AMBIENTAL', 'Engenharia Ambiental'),
         ('ENG_CIVIL', 'Engenharia Civil'),
@@ -18,11 +17,19 @@ class User(models.Model):
         ('ENG_MATERIAIS', 'Engenharia de Materiais'),
     ]
 
+    YEAR_CHOICES = [
+        (2019, "2019"),
+        (2020, "2020"),
+        (2021, "2021"),
+        (2022, "2022"),
+        (2024, "2024"),
+    ]
+
     id = models.AutoField(primary_key=True)
     nusp = models.IntegerField(unique=True)
     fullname = models.CharField(max_length=45)
     username = models.CharField(max_length=45)
-    start_date = models.DateField()
+    start_date = models.IntegerField("Ano de inicio", choices=YEAR_CHOICES)
     emailUSP = models.EmailField(max_length=45, unique=True)
     hashed_password = models.CharField(max_length=126)
     status_user = models.IntegerField(default=1) 
@@ -78,9 +85,19 @@ class UserTakesCourse(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="courses")
 
 class UserTookDiscipline(models.Model):
+
+    YEAR_CHOICES = [
+        (2018, "2018"),
+        (2019, "2019"),
+        (2020, "2020"),
+        (2021, "2021"),
+        (2022, "2022"),
+        (2024, "2024"),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="disciplines_taken")
     discipline = models.ForeignKey(Discipline, on_delete=models.CASCADE, related_name="users")
-    semester_completed = models.DateField()
+    semester_completed =  models.IntegerField("Ano em que fez a materia", choices=YEAR_CHOICES)
     note_teaching = models.IntegerField()
     note_material = models.IntegerField()
     note_difficulty = models.IntegerField()

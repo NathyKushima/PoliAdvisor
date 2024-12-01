@@ -1,15 +1,17 @@
+import json
+from rest_framework import viewsets, status
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.http import JsonResponse
-from django.db.models import Q
-from .models import Department, Discipline
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from .models import UserTookDiscipline
-from .models import User
-from django.db.models import Avg, Count
-from rest_framework import status
-from .serializers import UserSerializer
+from django.db.models import Q, Avg, Count, Func, F, IntegerField
+from .models import User, Department, Discipline, UserTookDiscipline
+from .serializers import UserSerializer, DisciplineSerializer
 
 class BestDisciplinesAPIView(APIView):
     def get(self, request):
@@ -85,3 +87,12 @@ class UserRegisterView(APIView):
             serializer.save()
             return Response({"message": "Usuário registrado com sucesso!"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class DisciplineDetailView(APIView):
+    def get(self, request, discipline_id):
+        try:
+            discipline = Discipline.objects.get(id=discipline_id)
+            serializer = DisciplineSerializer(discipline)
+            return Response(serializer.data)
+        except Discipline.DoesNotExist:
+            return Response({'error': 'Discipline not found'}, status=404)
