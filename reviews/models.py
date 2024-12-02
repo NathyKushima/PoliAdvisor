@@ -150,8 +150,13 @@ class Comment(models.Model):
     parent_comment = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, related_name="replies")
     comment_content = models.TextField()
     comment_date = models.DateField(auto_now_add=True)
-    status_comment = models.IntegerField()
+    status_comment = models.IntegerField(default=1)
 
 class UserCurtesComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liked_comments")
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="likes")
+
+class UserDenouncedComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="denounced_comments")
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="denounces")
+    denounce_text = models.TextField()

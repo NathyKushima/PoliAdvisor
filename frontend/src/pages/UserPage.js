@@ -8,30 +8,22 @@ const UserPage = () => {
   const [userInteractions, setUserInteractions] = useState(null);
   const [error, setError] = useState(''); // For handling errors
 
-  const fetchUserData = async () => {
-    try {
-      // Adjust the API endpoint and include credentials if necessary
-      const response = await axios.get( `api/user-info/`, { withCredentials: true });
-      setUserData(response.data); // Set user data on successful fetch
-    } catch (error) {
-      console.error('Erro ao buscar dados do usuário:', error);
-      setError('Erro ao carregar os dados do usuário.');
-    }
-  };
-  const fetchUserInteractions = async () => {
-    try {
-      const response = await axios.get('api/user-interactions/', { withCredentials: true });
-      setUserInteractions(response.data);
-    } catch (error) {
-      console.error('Erro ao buscar interações do usuário:', error);
-      setError('Erro ao carregar as interações do usuário.');
-    }
-  };
-
   useEffect(() => {
-    fetchUserData();
-    fetchUserInteractions();
-  }, []); // Empty dependency array to fetch data only on component mount
+    const fetchData = async () => {
+      try {
+        const [userDataRes, userInteractionsRes] = await Promise.all([
+          axios.get('api/user-info/', { withCredentials: true }),
+          axios.get('api/user-interactions/', { withCredentials: true }),
+        ]);
+        setUserData(userDataRes.data);
+        setUserInteractions(userInteractionsRes.data);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+        setError('Erro ao carregar os dados.');
+      }
+    };
+    fetchData();
+  }, []);
 
   if (error) {
     return <div className="error-message">{error}</div>;
@@ -46,38 +38,41 @@ const UserPage = () => {
       <Header />
       <div className="user-page-container">
         <div className="profile-photo-container">
-          {userData.photo ? (
-            <img src={userData.photo} alt={`${userData.fullname}'s profile`} className="profile-photo" />
-          ) : (
-            <div className="profile-photo-placeholder">{userData.initials}</div>
-          )}
+            {userData.photo ? (
+              <img src={userData.photo} alt={`${userData.fullname}'s profile`} className="profile-photo" />
+            ) : (
+              <div className="profile-photo-placeholder">{userData.initials}</div>
+            )}
+          </div>
+          <div className="user-info-container">
+            <h1>{userData.fullname}</h1>
+            <p><strong>Nome de usuário:</strong> {userData.username}</p>
+            <p><strong>Email:</strong> {userData.email}</p>
+            <p><strong>NUSP:</strong> {userData.nusp}</p>
+            <p><strong>Data de início:</strong> {userData.start_date}</p>
+            <p><strong>Curso:</strong> {userData.course}</p>
+          </div>
         </div>
-        <div className="user-info-container">
-          <h1>{userData.fullname}</h1>
-          <p><strong>Nome de usuário:</strong> {userData.username}</p>
-          <p><strong>Email:</strong> {userData.email}</p>
-          <p><strong>NUSP:</strong> {userData.nusp}</p>
-          <p><strong>Data de início:</strong> {userData.start_date}</p>
-          <p><strong>Curso:</strong> {userData.course}</p>
-        </div>
+        
         <div className="user-interactions-container">
-          <h2>Interações do usuário</h2>
+          <h1>Interações do usuário</h1>
           <p><strog>Avaliações Realizadas:</strog> {userInteractions.evaluations_count}</p>
           <p><strog>Nº de comentários:</strog> {userInteractions.comments_count}</p>
           <p><strog>Curtidas recebidas:</strog> {userInteractions.likes_received_count}</p>
           <p><strog>Curtidas dadas:</strog> {userInteractions.likes_given_count}</p>
         </div>
+        <button onClick={() => (window.location.href = '/EditProfile')} className="edit-profile">Edite Perfil</button>
         <div className="user-comments-container">
         {userInteractions.user_comments.map((comment, index) => (
           <div className="comment-container" key={index}>
-            <p><strong>Comentário:</strong> {comment.coment_content}</p>
+            <p><strong>Comentário:</strong> {comment.comment_content}</p>
             <p><strong>Publicado em:</strong> {comment.comment_date}</p>
             <p><strong>Disciplina:</strong> {comment.discipline_name}</p>
             <p><strong>Curtidas:</strong> {comment.likes_count}</p>
           </div>
         ))}
         </div>
-      </div>
+      
     </div>
   );
 };

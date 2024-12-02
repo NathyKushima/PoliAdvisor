@@ -22,7 +22,7 @@ h2 {
   gap: 20px;
 }
   
-.card {
+.card-home {
   background-color: #FFFFFF;
   border: 2px solid #d4af37;
   border-radius: 10px;
@@ -32,17 +32,17 @@ h2 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   text-align: center;
   align-content: center;
-  height: 650px;
+  height: 630px;
 }
   
-.card h3 {
+.card-home h3 {
   color: #000000;
   font-size: 2.5rem;
   margin-bottom: 20px;
   margin-top: 20px;
 }
 
-.card p {
+.card-home p {
   color: #1D3557;
   margin: 5px 0px;
   margin-bottom: 15px;

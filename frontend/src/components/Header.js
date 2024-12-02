@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Header.css';
 import logo from '../logo_Poliadvisor2.png';
 import { Route, Link, Routes, useLocation } from 'react-router-dom';
 
 const Header = ({}) => {
+  const [userData, setUserData] = useState(null); // Set initial state to null
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const location = useLocation();
+  const [error, setError] = useState(''); // For handling errors
   const { hash, pathname, search } = location;
 
   const handleSearch = async (e) => {
@@ -40,17 +42,32 @@ const Header = ({}) => {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [userDataRes] = await Promise.all([
+          axios.get('api/user-info/', { withCredentials: true }),
+        ]);
+        setUserData(userDataRes.data);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+        setError('Erro ao carregar os dados.');
+      }
+    };
+    fetchData();
+  }, []);
+
   const handleSelectSuggestion = (suggestion) => {
     setQuery(suggestion.label);
     setSuggestions([]);
     setDropdownVisible(false);
   };
 
-  let login;
-  if (pathname === "/LoginPage") {
-    login = false;
+  let logged;
+  if (!userData) {
+    logged = false;
   } else {
-    login = true;
+    logged = true;
   }
 
   let home;
@@ -71,14 +88,6 @@ const Header = ({}) => {
     login = true;
   } else {
     login = false;
-  }
-
-  const id = "";
-  let logged;
-  if (id === "") {
-    logged = false;
-  } else {
-    logged = true;
   }
 
   return (
@@ -131,21 +140,16 @@ const Header = ({}) => {
           </ul>
         )}
       </div>
-      )}
-      {login? (
-      <div>
-        
-      </div>
+      )}      
+      {login ? (
+        <div>
+        </div>
       ) : (
         <div>
-
-        </div>
-      )}
-      
       {logged ? (
         <div className="perfil">
-          Fulano De Tal
-          <img src={logo} alt="Poli Advisor" className="perfil-image" />
+          <a href="/UserPage"  id="logo-button" className="button-Logo">{userData.initials}</a>
+          <img src={userData.photo} onClick={() => (window.location.href = '/UserPage')} alt={userData.initials} className="perfil-image" />
         </div>
       ) : ( 
         <div className="login-button">
@@ -153,6 +157,8 @@ const Header = ({}) => {
           Entrar</button>
           </div>
       )}
+      </div>
+    )}
     </header>
   );
 };

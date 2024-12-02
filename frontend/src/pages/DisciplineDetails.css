@@ -1,8 +1,3 @@
-.home {
-    padding: 0px 20px;
-    font-family: 'Work Sans', sans-serif;
-    background-color: #ffffff;
-  }
     
   h2 {
     text-align: center;
@@ -18,6 +13,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: left;
     margin-top: 0px;
     gap: 20px;
   }
@@ -53,8 +49,9 @@
   
   .card-discipline p {
     color: #1D3557;
+    gap: 20px;
     margin: 5px 10px;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
     font-size: 1.5rem;
     text-align: left;
     
@@ -64,7 +61,7 @@
     margin-left: 55%;
     height: 780px;
     width: 780px;
-    margin-top: -190px;
+    margin-top: -380px;
   }
     
   .avalie-button {
@@ -76,7 +73,8 @@
     border-radius: 20px;
     cursor: pointer;
     font-size: 2rem;
-    margin-right: 50px;
+    margin-left: 60px;
+    margin-top: 20px;
     text-align: left;
   }
   

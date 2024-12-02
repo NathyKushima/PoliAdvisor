@@ -6,27 +6,62 @@ import { useParams } from "react-router-dom";
 import './DisciplineDetails.css';
 import Header from '../components/Header.js';
 
-
 const DisciplineDetails = () => {
     const { id: disciplineId } = useParams();
     const [discipline, setDiscipline] = useState(null);
+    const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-      const fetchDisciplineDetails = async () => {
-        try {
-          console.log(`Fetching data for discipline ID: ${disciplineId}`);
-          const response = await axios.get(`http://127.0.0.1:8000/api/discipline/${disciplineId}/`);
-          console.log("Response data:", response.data);
-          setDiscipline(response.data);
-        } catch (error) {
-          console.error("Error fetching discipline details:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
+
+    const likeComment = async (commentId) => {
+      try {
+        const [likeRes] =  await Promise.all([
+          axios.post(`http://127.0.0.1:8000/api/like/${commentId}/`, { withCredentials: true }),
+        ])
+        console.log("Like response:", likeRes.data);
+      } catch (error) {
+        console.error("Error liking comment:", error);
+      }
+    };
+
+  const create_comment = async (parent_commentId) => {
+    try {
+      const [commentRes] =  await Promise.all([
+        axios.post(`http://127.0.0.1:8000/api/create_comment/${parent_commentId}/`),
+      ])
+      console.log("Comment response:", commentRes.data);
+    } catch (error) {
+      console.error("Error liking comment:", error);
+    }
+  };
+
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  };
+
+
+  useEffect(() => {
+    const fetchDisciplineDetails = async () => {
+      try {
+        console.log(`Fetching data for discipline ID: ${disciplineId}`);
+        const [disciplieRes, commentsRes] = await Promise.all([
+          axios.get(`http://127.0.0.1:8000/api/discipline/${disciplineId}/`),
+          axios.get(`http://127.0.0.1:8000/api/comments/${disciplineId}/`)
+        ]);
+        /* console.log("Response data:", response.data); */
+        setDiscipline(disciplieRes.data);
+        setComments(commentsRes.data);
+      } catch (error) {
+        console.error("Error fetching discipline details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
   
       fetchDisciplineDetails();
+      const csrftoken = getCookie('csrftoken'); // Read the CSRF token from the browser's cookies
+      axios.defaults.headers['X-CSRFToken'] = csrftoken; // Set CSRF token header globally
     }, [disciplineId]);
   
     if (loading) return <p>Carregando...</p>;
@@ -65,6 +100,39 @@ const DisciplineDetails = () => {
     ],
   };
 
+  const Comment = ({ comment }) => (
+    <div className="comment_container">
+      <div className="comment_header">
+        <p><strong>{comment.username}</strong></p>
+      </div>
+      <div className="comment_body">
+        <p>{comment.comment_content}</p>
+      </div>
+      <div className="comment_footer">
+        <strong>Publicado em:</strong> {comment.comment_date}
+        <button className="like-button" onClick={() =>likeComment(comment.id) }>{comment.likes_count}</button> 
+        <button className="reply-button" onClick={() => alert("Resposta ainda não implementada!")}>Responder</button>
+        <button className="report-button" onClick={() => alert("Reportar ainda não implementado!")}>Reportar</button>
+      </div>
+
+      {comment.replies.length > 0 && (
+        <div className="replies">
+          {comment.replies.map(reply => (
+            <Comment key={reply.id} comment={reply} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+  
+  const CommentsList = ({ comments }) => (
+    <div className="comments-list">
+      {comments.map(comment => (
+        <Comment key={comment.id} comment={comment} />
+      ))}
+    </div>
+  );
+
   return (
     <div>
       <Header/>
@@ -97,6 +165,10 @@ const DisciplineDetails = () => {
             <Line data={data} />
             </div>
           </div>
+        </div>
+        <div className="card-comments">
+            <h2>Comentários</h2>
+            <CommentsList comments={comments} />
         </div>
     </div>
   );

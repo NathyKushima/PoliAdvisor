@@ -1,0 +1,129 @@
+    
+  h2 {
+    text-align: center;
+    color: #ffffff;
+    background-color: #1e4174ff;
+    font-size: 3rem;
+    margin-bottom: 30px;
+    border-radius: 30px;
+  }
+    
+  .user-page-container {
+    background-color: #FFFFFF;
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
+    width: 65%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 30px;
+    height: auto;
+  }
+    
+  .user-info-container {
+    text-align: left;
+    margin-top: 40px;
+  }
+    
+  .user-info-container p {
+    text-align: left;
+    margin-top: 40px;
+    margin-left: 30px;
+    font-size: 1.5rem;
+    color: black;
+  }
+
+  .user-info-container h1 {
+    text-align: left;
+    margin-top: -370px;
+    margin-left: 30px;
+    font-size: 3rem;
+  }
+
+  .profile-photo-container {
+    text-align: right;
+    margin-top: 40px;
+    margin-right: 45px;
+  }
+
+  .profile-photo {
+    height: 300px;
+    width: 300px;
+    border-radius: 520px;
+    object-fit: cover;
+  }
+
+    
+  .user-interactions-container {
+    background-color: #FFFFFF;
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 69%;
+    margin-top: -486px;
+    width: 29%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    align-content: center;
+    height: auto;
+  }
+
+  .user-interactions-container h1 {
+    font-size: 3rem;
+    margin-bottom: 25px;
+  }
+
+  .user-interactions-container p {
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+    color: black;
+  }
+  
+  .edit-profile{
+    font-family: 'Work Sans', sans-serif;
+    margin-top: 30px;
+    padding: 10px 180px;
+    background-color: #1e4174ff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 2.5rem;
+    margin-left: 1300px;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+
+  .user-comments-container {
+    background-color: #FFFFFF;
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    width: 96.5%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 40px;
+    height: auto;
+  }
+
+  .comment-container {
+    background-color: #FFFFFF;
+    border: 2px solid #1e4174ff;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    width: 95%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 40px;
+    height: auto;
+  }
+
+  .comment-container p {
+    color: black;
+  }

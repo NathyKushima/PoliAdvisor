@@ -34,7 +34,7 @@ const Home = () => {
         <h2>Melhores avaliadas</h2>
         <div className="disciplines">
         {disciplines.map((discipline, index) => (
-          <div className="card" key={index}>
+          <div className="card-home" key={index}>
             <h3>{discipline.discipline__discipline_code} - {discipline.discipline__name}</h3>
             <p><strong>Avaliação Geral:</strong> {((discipline.avg_teaching + discipline.avg_material + discipline.avg_difficulty) / 3).toFixed(1)}/10</p>
             <p><strong>Didática:</strong> {discipline.avg_teaching.toFixed(1)}/10</p>

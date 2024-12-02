@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
 from django.db.models import Q
-from .models import Department, Discipline, UserTookDiscipline, User, Comment, UserCurtesComment
+from .models import Department, Discipline, UserTookDiscipline, User, Comment, UserCurtesComment, UserDenouncedComment
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Q, Avg, Count, F, ExpressionWrapper
@@ -67,10 +67,12 @@ class DisciplineAPIView(APIView):
 @api_view(['GET'])
 @login_required
 def get_user_info(request):
+    print("AAAAAAAAAAAAAAAA")
     user = request.user
     user_data = User.objects.get(id=user.id)
 
     return Response({
+        'id': user_data.id,
         'username': user_data.username,
         'fullname': user_data.fullname,
         'email': user_data.email,
@@ -109,6 +111,50 @@ def get_user_interactions(request):
         'likes_received_count': likes_received_count,
         'user_comments': serialized_comments.data  # Add serialized comments
     })
+
+@api_view(['GET'])
+def get_discipline_comments(request, discipline_id):
+    comments = Comment.objects.filter(discipline=discipline_id, parent_comment=None).order_by('-comment_date')
+    serialized_comments = CommentSerializer(comments, many=True)
+    return Response(serialized_comments.data)
+
+@api_view(['POST'])
+@login_required
+def create_comment(request):
+    serializer = CommentSerializer(data=request.data, context={'user': request.user})
+    if serializer.is_valid():
+        serializer.save()  
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@login_required
+def like_comment(request, comment_id):
+    print(f'I\'M ON LIKE_COMMENT, THE ID IS: {comment_id}')
+    like, created = UserCurtesComment.objects.get_or_create(user=request.user.id, comment=comment_id)
+
+    if created:
+        return Response({"message": "Comentário curtido com sucesso!"}, status=status.HTTP_201_CREATED)
+    else:
+        like.delete()
+        return Response({"message": "Curtida removida com sucesso!"}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@login_required
+def delete_comment(request, comment_id):
+    comment = Comment.objects.get(id=comment_id)
+    return Response({"message": "Você não tem permissão para deletar este comentário."}, status=status.HTTP_403_FORBIDDEN)
+
+@api_view(['POST'])
+@login_required
+def denounce_comment(request, comment_id):
+    comment = Comment.objects.get(id=comment_id)
+    denounce, created = UserDenouncedComment.objects.get_or_create(user=request.user, comment=comment, 
+                                                                   denounce_text=request.data.get('denounce_text', None))
+    if denounce:
+        return Response({"message": "Comentário denunciado com sucesso!"}, status=status.HTTP_201_CREATED)
+    else:
+        return Response({"message": "Você já denunciou este comentário."}, status=status.HTTP_200_OK)
 
 
 def search(request):
@@ -170,7 +216,7 @@ def discipline_details(request, discipline_id):
             avg_teaching=Avg('note_teaching'),
             avg_material=Avg('note_material'),
             avg_difficulty=Avg('note_difficulty'),
-            avg_general=(Avg('note_teaching') + Avg('note_material') - Avg('note_difficulty') + 10)
+            avg_general=((Avg('note_teaching') + Avg('note_material') - Avg('note_difficulty') + 10) / 3)
         )
         
         response_data = {

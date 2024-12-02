@@ -10,4 +10,6 @@ urlpatterns = [
     path('user-info/', views.get_user_info, name='user_info'),
     path('user-interactions/', views.get_user_interactions, name='user_interactions'),
     path('discipline/<int:discipline_id>/', discipline_details, name='discipline_details'),
+    path('comments/<int:discipline_id>/', views.get_discipline_comments, name='discipline-comment'),
+    path('like/<int:comment_id>/', views.like_comment, name='like-comment'),
 ]
