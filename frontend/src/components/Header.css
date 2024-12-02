@@ -17,6 +17,11 @@
     margin-left: 0px;
   }
 
+  a {
+    text-decoration: none;
+    color: #dda94b;
+  }
+
   .logo {
     display: flex;
     align-items: center;
@@ -117,15 +122,20 @@
 
 .suggestions-list {
   position: absolute;
-  background: black;
-  border: 1px solid red;
+  background: white;
+  border: 1px solid #1e4174;
   max-height: 200px;
-  overflow-y: auto;
-  width: calc(100% - 20px);
-  margin: 5px 0 0;
+  width: 400px;
   list-style: none;
   padding: 0;
-  z-index: 1000;
+  margin-top: 130px;
+  margin-left: -70px;
+  font-size: 14px;
+  color: #1e4174; 
+  height: 70px; 
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .suggestion-item {
@@ -135,15 +145,4 @@
 
 .suggestion-item:hover {
   background-color: black;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .logo-image {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-a {
-  text-decoration: none;
-  color: #dda94b;
 }

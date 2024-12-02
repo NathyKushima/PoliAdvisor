@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import './LoginPage.css';
-import './Header.css';
+import Header from '../components/Header.js';
 import logo from '../logo_2_Poli.png';
-import Header from './Header.js';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
