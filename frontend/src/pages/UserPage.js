@@ -8,27 +8,27 @@ const UserPage = () => {
   const [userInteractions, setUserInteractions] = useState(null);
   const [error, setError] = useState(''); // For handling errors
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Adjust the API endpoint and include credentials if necessary
-        const response = await axios.get( `api/user-info/`, { withCredentials: true });
-        setUserData(response.data); // Set user data on successful fetch
-      } catch (error) {
-        console.error('Erro ao buscar dados do usuário:', error);
-        setError('Erro ao carregar os dados do usuário.');
-      }
-    };
-    const fetchUserInteractions = async () => {
-      try {
-        const response = await axios.get('api/user-interactions/', { withCredentials: true });
-        setUserInteractions(response.data);
-      } catch (error) {
-        console.error('Erro ao buscar interações do usuário:', error);
-        setError('Erro ao carregar as interações do usuário.');
-      }
-    };
+  const fetchUserData = async () => {
+    try {
+      // Adjust the API endpoint and include credentials if necessary
+      const response = await axios.get( `api/user-info/`, { withCredentials: true });
+      setUserData(response.data); // Set user data on successful fetch
+    } catch (error) {
+      console.error('Erro ao buscar dados do usuário:', error);
+      setError('Erro ao carregar os dados do usuário.');
+    }
+  };
+  const fetchUserInteractions = async () => {
+    try {
+      const response = await axios.get('api/user-interactions/', { withCredentials: true });
+      setUserInteractions(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar interações do usuário:', error);
+      setError('Erro ao carregar as interações do usuário.');
+    }
+  };
 
+  useEffect(() => {
     fetchUserData();
     fetchUserInteractions();
   }, []); // Empty dependency array to fetch data only on component mount
