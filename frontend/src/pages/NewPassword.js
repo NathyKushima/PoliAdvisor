@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import './LoginPage.css';
-import './Header.css';
-import logo from '../logo_2_Poli.png';
-import Header from './Header.js';
+import './NewPassword.css';
+import '../components/Header.css';
+import Header from '../components/Header.js';
 
-const LoginPage = () => {
+const NewPassword = () => {
   const [formData, setFormData] = useState({ emailOrName: '', password: '' });
 
   const handleInputChange = (e) => {
@@ -20,9 +19,9 @@ const LoginPage = () => {
   return (
     <div>
       <Header/>
-      <div className="login-page">
-        <div className="login-container">
-          <h1>Login</h1>
+      <div className="new-page">
+        <div className="new-container">
+          <h1>Nova Senha</h1>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <input
@@ -31,35 +30,29 @@ const LoginPage = () => {
                 name="emailOrName"
                 value={formData.emailOrName}
                 onChange={handleInputChange}
-                placeholder="Nome de usuário/email"
+                placeholder="Digite sua senha"
                 required
               />
             </div>
             <div className="form-group">
               <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
+                type="text"
+                id="emailOrName"
+                name="emailOrName"
+                value={formData.emailOrName}
                 onChange={handleInputChange}
-                placeholder="Digite sua senha"
+                placeholder="Digite novamente sua senha"
                 required
               />
             </div>
-            <button type="submit" className="btn-login">
-              Entrar
+            <button onClick={() => (window.location.href = 'http://127.0.0.1:8000/email/')} className="btn-new">
+              Enviar
             </button>
           </form>
-            <button className="btn-new" onClick={() => alert('Criar conta')}>
-              Criar conta
-            </button>
-            <button className="btn-passoword" onClick={() => alert('Redefinir senha')}>
-              Esqueci a senha
-            </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default NewPassword;

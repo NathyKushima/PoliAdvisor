@@ -4,7 +4,7 @@ import './Header.css';
 import logo from '../logo_Poliadvisor2.png';
 import { Route, Link, Routes, useLocation } from 'react-router-dom';
 
-const Header = ({ looged }) => {
+const Header = ({}) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
