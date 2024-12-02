@@ -12,6 +12,11 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="" element={<Home />} />
+        <Route path="/LoginPage" element={<LoginPage />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/NewPassword" element={<NewPassword />} />
+        <Route path="/AlreadySendFP" element={<AlreadySendFP />} />
         <Route path="/discipline/:id" element={<DisciplineDetails />} />
       </Routes>
     </Router>

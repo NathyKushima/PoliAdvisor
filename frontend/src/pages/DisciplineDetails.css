@@ -1,0 +1,95 @@
+.home {
+    padding: 0px 20px;
+    font-family: 'Work Sans', sans-serif;
+    background-color: #ffffff;
+  }
+    
+  h2 {
+    text-align: center;
+    color: #ffffff;
+    background-color: #1e4174ff;
+    font-size: 3rem;
+    margin-bottom: 30px;
+    border-radius: 30px;
+  }
+    
+  .discipline {
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+    gap: 20px;
+  }
+    
+  .card-discipline {
+    background-color: #FFFFFF;
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 0px;
+    width: 92%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    align-content: center;
+    height: auto;
+    margin-top: 40px;
+  }
+    
+  .card-discipline h1 {
+    color: #000000;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .card-discipline h3 {
+    color: #000000;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .card-discipline p {
+    color: #1D3557;
+    margin: 5px 10px;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    text-align: left;
+    
+  }
+
+  .graph {
+    margin-left: 55%;
+    height: 780px;
+    width: 780px;
+    margin-top: -190px;
+  }
+    
+  .avalie-button {
+    font-family: 'Work Sans', sans-serif;
+    padding: 10px 30px;
+    background-color: #1D3557;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 2rem;
+    margin-right: 50px;
+    text-align: left;
+  }
+  
+  .comments-button:hover {
+    background-color: #d4af37;
+    color: #000000;
+  }
+  
+  .comments-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #A8DADC;
+  }
+  
+  a {
+    text-decoration: none;
+  }

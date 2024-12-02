@@ -3,7 +3,9 @@ import axios from "axios";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import { useParams } from "react-router-dom";
-import '../DisciplineDetails.css';
+import './DisciplineDetails.css';
+import Header from '../components/Header.js';
+
 
 const DisciplineDetails = () => {
     const { id: disciplineId } = useParams();
@@ -29,6 +31,8 @@ const DisciplineDetails = () => {
   
     if (loading) return <p>Carregando...</p>;
     if (!discipline) return <p>Disciplina não encontrada ou erro na API.</p>;
+
+  const data2024 = discipline.averages.find(avg => avg.semester_completed === 2024) || {};
 
   const years = discipline.averages.map(avg => avg.semester_completed);
   const data = {
@@ -63,12 +67,37 @@ const DisciplineDetails = () => {
 
   return (
     <div>
-      <h1>Detalhes da Disciplina</h1>
-      <p><strong>Código:</strong> {discipline.discipline_code}</p>
-      <p><strong>Nome:</strong> {discipline.name}</p>
-      <button onClick={() => alert("Avaliação ainda não implementada!")}>Avaliar</button>
-      <h2>Médias por Ano</h2>
-      <Line data={data} />
+      <Header/>
+      <div className="discipline">
+          <div className="card-discipline">
+            <h1>Detalhes da Disciplina</h1>
+            <p><strong>{discipline.discipline_code} - {discipline.name}:</strong> </p>
+            
+            <p>Último oferecimento (2024):</p>
+              <ul style={{ listStyleType: "none", padding: 0 }}>
+                <p style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ width: "10px", height: "10px", backgroundColor: "purple", borderRadius: "50%", marginRight: "8px" }}></span>
+                  <span>Avaliação Geral: <strong>{data2024.avg_general?.toFixed(2) || "N/A"}</strong></span>
+                </p>
+                <p style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ width: "10px", height: "10px", backgroundColor: "blue", borderRadius: "50%", marginRight: "8px" }}></span>
+                  <span>Didática: <strong>{data2024.avg_teaching?.toFixed(2) || "N/A"}</strong></span>
+                </p>
+                <p style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ width: "10px", height: "10px", backgroundColor: "green", borderRadius: "50%", marginRight: "8px" }}></span>
+                  <span>Material: <strong>{data2024.avg_material?.toFixed(2) || "N/A"}</strong></span>
+                </p>
+                <p style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ width: "10px", height: "10px", backgroundColor: "red", borderRadius: "50%", marginRight: "8px" }}></span>
+                  <span>Dificuldade: <strong>{data2024.avg_difficulty?.toFixed(2) || "N/A"}</strong></span>
+                </p>
+              </ul>
+              <button className="avalie-button" onClick={() => alert("Avaliação ainda não implementada!")}>Avaliar</button>
+              <div className="graph">
+            <Line data={data} />
+            </div>
+          </div>
+        </div>
     </div>
   );
 };

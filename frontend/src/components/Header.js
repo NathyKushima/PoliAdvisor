@@ -23,7 +23,7 @@ const Header = ({}) => {
           label: `${dept.department_name} (${dept.department_code})`,
         }));
         const disciplineSuggestions = response.data.disciplines.map((disc) => ({
-          id: `disc-${disc.id}`,
+          id: `${disc.id}`,
           label: `${disc.name} (${disc.discipline_code})`,
         }));
 
@@ -53,6 +53,19 @@ const Header = ({}) => {
     home = false;
   }
 
+  let login;
+  if (pathname === "/LoginPage") {
+    login = true;
+  } else if (pathname === "/ForgotPassword") {
+    login = true;
+  } else if (pathname === "/NewPassword"){
+    login = true;
+  } else if (pathname === "/AlreadySendFP"){
+    login = true;
+  } else {
+    login = false;
+  }
+
   const id = "";
   let logged;
   if (id === "") {
@@ -67,7 +80,11 @@ const Header = ({}) => {
         <img src={logo} alt="Poli Advisor" className="logo-image" />
         <a href="/"  id="logo-button" className="button-Logo"><h1>Poli Advisor</h1></a>
       </div>
-      {home ? (
+      {login ? (
+        <div>
+
+        </div>
+      ) : (
         <div className="search-bar">
         <input
           type="text"
@@ -98,7 +115,7 @@ const Header = ({}) => {
             {suggestions.map((suggestion) => (
               <li
                 key={suggestion.id}
-                onClick={() => handleSelectSuggestion(suggestion)}
+                onClick={() => (window.location.href = '/discipline/' + suggestion.id)}
                 className="suggestion-item"
               >
                 {suggestion.label}
@@ -107,22 +124,25 @@ const Header = ({}) => {
           </ul>
         )}
       </div>
+      )}
+      {login? (
+      <div>
+        
+      </div>
       ) : (
         <div>
-
-        </div>
-      )}
-      
-      {logged ? (
-        <div className="perfil">
-          Fulano De Tal
-          <img src={logo} alt="Poli Advisor" className="perfil-image" />
-        </div>
-      ) : ( 
-        <div className="login-button">
-        <button onClick={() => (window.location.href = '/LoginPage')} className="login">
-          Entrar</button>
+          {logged ? (
+          <div className="perfil">
+            Fulano De Tal
+            <img src={logo} alt="Poli Advisor" className="perfil-image" />
           </div>
+        ) : ( 
+          <div className="login-button">
+          <button onClick={() => (window.location.href = '/LoginPage')} className="login">
+            Entrar</button>
+            </div>
+        )}
+        </div>
       )}
     </header>
   );
