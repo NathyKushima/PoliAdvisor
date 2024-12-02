@@ -22,7 +22,6 @@ function App() {
             <Route path="AlreadySendFP" element={<AlreadySendFP/>}/>
             <Route path="Register" element={<Register/>}/>
             <Route path="userPage" element={<UserPage/>}/>
-            <Route path="disc-1" element={<Discipline1 />}/>
           </Routes>
         </Router>
       </main>
