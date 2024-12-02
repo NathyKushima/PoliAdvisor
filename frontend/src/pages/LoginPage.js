@@ -44,7 +44,6 @@ const LoginPage = () => {
       <div className="login-page">
         <div className="login-container">
           <div className="header-container">
-              <img src={logo} alt="Poli Advisor" className="logo-image" />
               <h1>Poli Advisor</h1>
           </div>
           <form onSubmit={handleSubmit}>
@@ -78,8 +77,11 @@ const LoginPage = () => {
         <button className="btn-new" onClick={() => alert('Criar conta')}>
           Criar conta
         </button>
-        <button className="btn-password" onClick={() => alert('Redefinir senha')}>
+        <button className="btn-password" onClick={() => (window.location.href = '/ForgotPasswor')}>
           Esqueci a senha
+        </button>
+        <button className="btn-password" onClick={() => (window.location.href = '/UserPage')}>
+          Entrar Logado
         </button>
       </div>
       </div>
