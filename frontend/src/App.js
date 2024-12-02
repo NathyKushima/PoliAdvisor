@@ -1,14 +1,20 @@
-import logo from './logo_Poliadvisor.png';
 import './App.css';
 import React from 'react';
-import Header from './components/Header.js';
-import LoginPage from './components/LoginPage.js';
-import Register from './components/Register.js';
+import Home from './pages/Home.js';
+import LoginPage from './components/LoginPage.js'
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <LoginPage />
+      <main>
+        <Router>
+          <Routes>
+            <Route path="" element={<Home />} />
+            <Route path="LoginPage" element={<LoginPage />} />
+          </Routes>
+        </Router>
+      </main>
     </div>
   );
 }
