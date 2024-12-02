@@ -3,13 +3,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
 from django.db.models import Q
-from .models import Department, Discipline
+from .models import Department, Discipline, UserTookDiscipline, User, Comment, UserCurtesComment
 from django.contrib.auth.decorators import login_required
-from .models import UserTookDiscipline
-from .models import User
 from django.db.models import Avg, Count
 from rest_framework import status
-from .serializers import UserSerializer
+from .serializers import UserSerializer, CommentSerializer
 from django.contrib.auth import authenticate, login
 
 
@@ -74,9 +72,40 @@ def get_user_info(request):
         'email': user_data.email,
         'nusp': user_data.nusp,
         'start_date': user_data.start_date,
+        'course': user_data.course,
         'photo': user_data.user_photo.url if user_data.user_photo else None,
         'initials': user_data.initials() 
     })
+
+@api_view(['GET'])
+@login_required
+def get_user_interactions(request):
+    user = request.user
+
+    # Count related interactions
+    evaluations_count = UserTookDiscipline.objects.filter(user=user).count()
+    comments_count = Comment.objects.filter(user=user).count()
+    likes_given_count = UserCurtesComment.objects.filter(user=user).count()
+
+    # Annotate comments with likes_count
+    user_comments = Comment.objects.filter(user=user).annotate(
+        likes_count=Count('likes', distinct=True)
+    ).order_by('-likes_count')
+
+    # Serialize the user comments
+    serialized_comments = CommentSerializer(user_comments, many=True)
+
+    # Calculate likes received
+    likes_received_count = sum(comment.likes_count for comment in user_comments)
+
+    return Response({
+        'evaluations_count': evaluations_count,
+        'comments_count': comments_count,
+        'likes_given_count': likes_given_count,
+        'likes_received_count': likes_received_count,
+        'user_comments': serialized_comments.data  # Add serialized comments
+    })
+
 
 def search(request):
     query = request.GET.get('q', '')

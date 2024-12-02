@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Comment, Discipline
+from django.db.models import Count
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -36,3 +37,15 @@ class UserSerializer(serializers.ModelSerializer):
 
         return data
 
+class CommentSerializer(serializers.ModelSerializer):
+    likes_count = serializers.IntegerField(read_only=True)
+    discipline_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'user', 'discipline', 'parent_comment', 'coment_content', 
+                  'comment_date', 'status_comment', 'likes_count', 'discipline_name']
+
+    def get_discipline_name(self, obj):
+        # Retrieve the discipline's name associated with this comment
+        return obj.discipline.name if obj.discipline else None
