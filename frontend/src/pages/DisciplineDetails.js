@@ -29,7 +29,6 @@ const DisciplineDetails = () => {
     if (loading) return <p>Carregando...</p>;
     if (!discipline) return <p>Disciplina não encontrada ou erro na API.</p>;
 
-  // Preparar dados para o gráfico
   const years = discipline.averages.map(avg => avg.semester_completed);
   const data = {
     labels: years,

@@ -1,16 +1,13 @@
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.http import JsonResponse
-from django.db.models import Q
-from .models import Department, Discipline
 from django.contrib.auth.decorators import login_required
-from .models import UserTookDiscipline
-from .models import User
-from django.db.models import Avg, Count
-from rest_framework import status
-from .serializers import UserSerializer
+from django.http import JsonResponse
+from django.db.models import Q, Avg, Count, F, ExpressionWrapper
 from django.contrib.auth import authenticate, login
+from .serializers import UserSerializer, UserTookDisciplineSerializer
+from .models import Department, Discipline, UserTookDiscipline, User
 
 class BestDisciplinesAPIView(APIView):
     def get(self, request):
@@ -96,8 +93,30 @@ class LoginView(APIView):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            # Log the user in (this will create a session for the user)
             login(request, user)
             return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+def discipline_details(request, discipline_id):
+    try:
+        discipline = Discipline.objects.get(id=discipline_id)
+        
+        evaluations = UserTookDiscipline.objects.filter(discipline=discipline)
+        
+        averages_by_year = evaluations.values('semester_completed').annotate(
+            avg_teaching=Avg('note_teaching'),
+            avg_material=Avg('note_material'),
+            avg_difficulty=Avg('note_difficulty'),
+            avg_general=(Avg('note_teaching') + Avg('note_material') - Avg('note_difficulty') + 10)
+        )
+        
+        response_data = {
+            "discipline_code": discipline.discipline_code,
+            "name": discipline.name,
+            "averages": list(averages_by_year),
+        }
+        return JsonResponse(response_data, safe=False)
+
+    except Discipline.DoesNotExist:
+        return JsonResponse({"error": "Disciplina não encontrada."}, status=404)
