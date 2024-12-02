@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.db.models import Q, Avg, Count, F, ExpressionWrapper
+from django.db.models import Q, Avg, Count, F, ExpressionWrapper, FloatField, ExpressionWrapper
 from django.contrib.auth import authenticate, login
 from .serializers import UserSerializer, UserTookDisciplineSerializer
 from .models import Department, Discipline, UserTookDiscipline, User
@@ -108,7 +108,10 @@ def discipline_details(request, discipline_id):
             avg_teaching=Avg('note_teaching'),
             avg_material=Avg('note_material'),
             avg_difficulty=Avg('note_difficulty'),
-            avg_general=(Avg('note_teaching') + Avg('note_material') - Avg('note_difficulty') + 10)
+            avg_general=ExpressionWrapper(
+            (F('note_teaching') + F('note_material') + (10 - F('note_difficulty'))) / 3,
+            output_field=FloatField()
+            )
         )
         
         response_data = {
