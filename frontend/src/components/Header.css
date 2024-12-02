@@ -144,5 +144,11 @@
 }
 
 .suggestion-item:hover {
-  background-color: black;
+  background-color: #dda94b;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo-image {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }

@@ -2,12 +2,22 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import JsonResponse
+from django.db.models import Q
+from .models import Department, Discipline, UserTookDiscipline, User, Comment, UserCurtesComment
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+<<<<<<< HEAD
 from django.db.models import Q, Avg, Count, F, ExpressionWrapper, FloatField, ExpressionWrapper
+=======
+from django.db.models import Q, Avg, Count, F, ExpressionWrapper
+from django.db.models import Avg, Count
+from rest_framework import status
+from .serializers import UserSerializer, CommentSerializer, UserTookDisciplineSerializer
+>>>>>>> 908643182e81b6b0f18660a63d40e03a29f2061f
 from django.contrib.auth import authenticate, login
-from .serializers import UserSerializer, UserTookDisciplineSerializer
-from .models import Department, Discipline, UserTookDiscipline, User
+
+
 
 class BestDisciplinesAPIView(APIView):
     def get(self, request):
@@ -34,6 +44,29 @@ class BestDisciplinesAPIView(APIView):
                 selected_ids.add(discipline['discipline__id'])
 
         return Response(best_disciplines)
+    
+class DisciplineAPIView(APIView):
+    def get_disc_info(self, request, id):
+        disciplines = (
+            UserTookDiscipline.objects
+            .values('discipline__id', 'discipline__name', 'discipline__discipline_code')
+            .annotate(
+                note_teaching=Avg('note_teaching'),
+            
+            )
+            .order_by('-avg_difficulty', '-avg_teaching', '-avg_material')
+        )
+
+        discipline_right = []
+        selected_ids = set()
+
+        for discipline in disciplines:
+
+            if discipline['discipline__id'] == discipline[id]:
+                disciplines.append(discipline_right)
+                selected_ids.add(discipline['discipline__id'])
+
+        return Response(discipline_right)
 
 @api_view(['GET'])
 @login_required
@@ -44,9 +77,43 @@ def get_user_info(request):
     return Response({
         'username': user_data.username,
         'fullname': user_data.fullname,
+        'email': user_data.email,
+        'nusp': user_data.nusp,
+        'start_date': user_data.start_date,
+        'course': user_data.course,
         'photo': user_data.user_photo.url if user_data.user_photo else None,
         'initials': user_data.initials() 
     })
+
+@api_view(['GET'])
+@login_required
+def get_user_interactions(request):
+    user = request.user
+
+    # Count related interactions
+    evaluations_count = UserTookDiscipline.objects.filter(user=user).count()
+    comments_count = Comment.objects.filter(user=user).count()
+    likes_given_count = UserCurtesComment.objects.filter(user=user).count()
+
+    # Annotate comments with likes_count
+    user_comments = Comment.objects.filter(user=user).annotate(
+        likes_count=Count('likes', distinct=True)
+    ).order_by('-likes_count')
+
+    # Serialize the user comments
+    serialized_comments = CommentSerializer(user_comments, many=True)
+
+    # Calculate likes received
+    likes_received_count = sum(comment.likes_count for comment in user_comments)
+
+    return Response({
+        'evaluations_count': evaluations_count,
+        'comments_count': comments_count,
+        'likes_given_count': likes_given_count,
+        'likes_received_count': likes_received_count,
+        'user_comments': serialized_comments.data  # Add serialized comments
+    })
+
 
 def search(request):
     query = request.GET.get('q', '')
@@ -83,7 +150,6 @@ class UserRegisterView(APIView):
             serializer.save()
             return Response({"message": "Usuário registrado com sucesso!"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
