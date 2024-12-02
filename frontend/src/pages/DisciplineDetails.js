@@ -3,6 +3,7 @@ import axios from "axios";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import { useParams } from "react-router-dom";
+import '../DisciplineDetails.css';
 
 const DisciplineDetails = () => {
     const { id: disciplineId } = useParams();
