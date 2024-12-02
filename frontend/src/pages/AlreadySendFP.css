@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
 
-.login-page {
+.already-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,7 +9,7 @@
     background-color: #f4f4f4;
   }
   
-  .login-container {
+  .already-container {
     background: white;
     padding: 30px;
     max-width: 400px;
@@ -18,15 +18,23 @@
     width: 100%;
     text-align: center;
     width: 450px;
-    height: 480px;
+    height: 350px;
   }
   
-  .login-container h1 {
+  .already-container h1 {
     margin-bottom: 20px;
     color: #1e4174ff;
     font-family: 'Work Sans', sans-serif;
     font-size: 3.8rem;
     margin-top: 8px;
+  }
+
+  .already-container h3 {
+    margin-bottom: 20px;
+    color: #1e4174ff;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1.2rem;
+    margin-top: 25px;
   }
   
   .form-group {
@@ -56,7 +64,7 @@
     margin-left: -75px;
   }
   
-  .btn-login {
+  .btn-forgot {
     width: 100%;
     padding: 10px;
     background-color: #1e4174ff;
@@ -117,4 +125,3 @@
   .btn-secondary:hover {
     text-decoration: underline;
   }
-  

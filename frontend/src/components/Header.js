@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Header.css';
-import logo from '../logo_Poliadvisor.png';
+import logo from '../logo_Poliadvisor2.png';
+import { Route, Link, Routes, useLocation } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({}) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const location = useLocation();
+  const { hash, pathname, search } = location;
 
   const handleSearch = async (e) => {
     const searchValue = e.target.value;
@@ -43,13 +46,29 @@ const Header = () => {
     setDropdownVisible(false);
   };
 
+  let home;
+  if (pathname === "/") {
+    home = true;
+  } else {
+    home = false;
+  }
+
+  const id = "";
+  let logged;
+  if (id === "") {
+    logged = false;
+  } else {
+    logged = true;
+  }
+
   return (
     <header className="header">
       <div className="logo">
         <img src={logo} alt="Poli Advisor" className="logo-image" />
-        <h1 id="logo-button" className="buton-Logo">Poli Advisor</h1>
+        <a href="/"  id="logo-button" className="button-Logo"><h1>Poli Advisor</h1></a>
       </div>
-      <div className="search-bar">
+      {home ? (
+        <div className="search-bar">
         <input
           type="text"
           className="search-input"
@@ -88,11 +107,23 @@ const Header = () => {
           </ul>
         )}
       </div>
-      <div className="login-button">
-        <button onClick={() => (window.location.href = '/login')} className="login">
-          Entrar
-        </button>
-      </div>
+      ) : (
+        <div>
+
+        </div>
+      )}
+      
+      {logged ? (
+        <div className="perfil">
+          Fulano De Tal
+          <img src={logo} alt="Poli Advisor" className="perfil-image" />
+        </div>
+      ) : ( 
+        <div className="login-button">
+        <button onClick={() => (window.location.href = '/LoginPage')} className="login">
+          Entrar</button>
+          </div>
+      )}
     </header>
   );
 };

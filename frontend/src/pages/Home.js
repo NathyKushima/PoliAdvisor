@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './Home.css';
 import axios from 'axios';
-import Header from './components/Header';
+import Header from '../components/Header.js';
 
 const Home = () => {
   const [disciplines, setDisciplines] = useState([]);
+  const [query, setQuery] = useState('');
+
+  const handleSearch = async (e) => {
+    const searchValue = e.target.value;
+    setQuery(searchValue);
+  }
 
   const fetchDisciplines = async () => {
     try {
@@ -13,16 +19,20 @@ const Home = () => {
     } catch (error) {
       console.error('Erro ao buscar disciplinas:', error);
     }
-  };
+  }
+
+  
 
   useEffect(() => {
     fetchDisciplines();
   }, []);
 
   return (
-    <div className="home">
-      <h2>Mais pesquisadas</h2>
-      <div className="disciplines">
+    <div>
+      <Header/>
+        <div className="home">
+        <h2>Mais pesquisadas</h2>
+        <div className="disciplines">
         {disciplines.map((discipline, index) => (
           <div className="card" key={index}>
             <h3>{discipline.discipline__discipline_code} - {discipline.discipline__name}</h3>
@@ -33,7 +43,8 @@ const Home = () => {
             <p>{discipline.reviews_count} avaliações</p>
             <button className="comments-button">Comentários ({discipline.reviews_count})</button>
           </div>
-        ))}
+        ))}  
+      </div>
       </div>
     </div>
   );
