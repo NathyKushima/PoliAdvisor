@@ -7,7 +7,6 @@ import NewPassword from './pages/NewPassword.js';
 import AlreadySendFP from './pages/AlreadySendFP.js';
 import Register from './pages/Register.js';
 import UserPage from './pages/UserPage.js';
-import Discipline1 from './disciplines/PMR3304.js';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 function App() {
