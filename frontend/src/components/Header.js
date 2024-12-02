@@ -46,13 +46,6 @@ const Header = ({}) => {
     setDropdownVisible(false);
   };
 
-  let login;
-  if (pathname === "/LoginPage") {
-    login = false;
-  } else {
-    login = true;
-  }
-
   let home;
   if (pathname === "/") {
     home = true;

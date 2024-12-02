@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-import React, { useEffect } from 'react';
-import Header from '../components/Header.js'; 
-import './HomePage.css';
-=======
 import React, { useEffect, useState } from 'react';
-import Header from '../components/Header'; 
+import Header from '../components/Header.js'; 
 import './UserPage.css';
 import axios from 'axios';
->>>>>>> 908643182e81b6b0f18660a63d40e03a29f2061f
 
 const UserPage = () => {
   const [userData, setUserData] = useState(null); // Set initial state to null

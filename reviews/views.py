@@ -111,7 +111,7 @@ def get_user_interactions(request):
         'comments_count': comments_count,
         'likes_given_count': likes_given_count,
         'likes_received_count': likes_received_count,
-        'user_comments': serialized_comments.data  # Add serialized comments
+        'user_comments': serialized_comments.data  
     })
 
 
