@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './NewPassword.css';
-import '../components/Header.css';
 import Header from '../components/Header.js';
 
 const NewPassword = () => {

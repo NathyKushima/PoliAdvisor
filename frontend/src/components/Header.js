@@ -46,6 +46,13 @@ const Header = ({}) => {
     setDropdownVisible(false);
   };
 
+  let login;
+  if (pathname === "/LoginPage") {
+    login = false;
+  } else {
+    login = true;
+  }
+
   let home;
   if (pathname === "/") {
     home = true;
@@ -131,18 +138,20 @@ const Header = ({}) => {
       </div>
       ) : (
         <div>
-          {logged ? (
-          <div className="perfil">
-            Fulano De Tal
-            <img src={logo} alt="Poli Advisor" className="perfil-image" />
-          </div>
-        ) : ( 
-          <div className="login-button">
-          <button onClick={() => (window.location.href = '/LoginPage')} className="login">
-            Entrar</button>
-            </div>
-        )}
+
         </div>
+      )}
+      
+      {logged ? (
+        <div className="perfil">
+          Fulano De Tal
+          <img src={logo} alt="Poli Advisor" className="perfil-image" />
+        </div>
+      ) : ( 
+        <div className="login-button">
+        <button onClick={() => (window.location.href = '/LoginPage')} className="login">
+          Entrar</button>
+          </div>
       )}
     </header>
   );
