@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import './LoginPage.css';
 import Header from '../components/Header.js';
@@ -7,6 +7,18 @@ import logo from '../logo_2_Poli.png';
 const LoginPage = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [message, setMessage] = useState(''); // For displaying login errors or success
+
+  useEffect(() => {
+    const csrftoken = getCookie('csrftoken'); // Read the CSRF token from the browser's cookies
+    axios.defaults.headers['X-CSRFToken'] = csrftoken; // Set CSRF token header globally
+  }, []);
+
+  // Helper function to get the CSRF token from cookies
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +36,7 @@ const LoginPage = () => {
       const response = await axios.post(
         'http://127.0.0.1:8000/api/login/', 
         { username, password }, 
-        { withCredentials: true }
+        { withCredentials: true },
       );
       
       setMessage('Login realizado com sucesso!');  // Handle success message

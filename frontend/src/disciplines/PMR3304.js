@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Home.css';
+import './PMR3304.css';
 import axios from 'axios';
 import Header from '../components/Header.js';
 
@@ -30,21 +30,19 @@ const Home = () => {
   return (
     <div>
       <Header/>
-        <div className="home">
-        <h2>Melhores avaliadas</h2>
-        <div className="disciplines">
-        {disciplines.map((discipline, index) => (
+      <div className="disciplines">
+          <div className="card">
+          {disciplines.map((discipline, index) => (
           <div className="card" key={index}>
             <h3>{discipline.discipline__discipline_code} - {discipline.discipline__name}</h3>
-            <p><strong>Avaliação Geral:</strong> {((discipline.avg_teaching + discipline.avg_material + discipline.avg_difficulty) / 3).toFixed(1)}/10</p>
-            <p><strong>Didática:</strong> {discipline.avg_teaching.toFixed(1)}/10</p>
-            <p><strong>Material:</strong> {discipline.avg_material.toFixed(1)}/10</p>
-            <p><strong>Dificuldade:</strong> {discipline.avg_difficulty.toFixed(1)}/10</p>
+            <p><strong>Avaliação Geral:</strong> {((discipline.avg_teaching + discipline.avg_material + discipline.avg_difficulty)  / 3).toFixed(1)}/10</p>
+            <p><strong>Didática:</strong> {discipline.avg_teaching}/10</p>
+            <p><strong>Material:</strong> {discipline.avg_material}/10</p>
+            <p><strong>Dificuldade:</strong> {discipline.avg_difficulty}/10</p>
             <p>{discipline.reviews_count} avaliações</p>
-            <button className="comments-button">Comentários ({discipline.reviews_count})</button>
-          </div>
-        ))}  
-      </div>
+          </div> 
+          ))}
+        </div>
       </div>
     </div>
   );

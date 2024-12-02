@@ -46,11 +46,20 @@ const Header = ({}) => {
     setDropdownVisible(false);
   };
 
-  let home;
-  if (pathname === "/") {
-    home = true;
+  let login;
+  if (pathname === "/LoginPage") {
+    login = false;
   } else {
+    login = true;
+  }
+
+  let home;
+  if (pathname === "/LoginPage") {
     home = false;
+  } else if (pathname === "/ForgotPassword") {
+    home = false;
+  } else {
+    home = true;
   }
 
   const id = "";
@@ -98,7 +107,7 @@ const Header = ({}) => {
             {suggestions.map((suggestion) => (
               <li
                 key={suggestion.id}
-                onClick={() => handleSelectSuggestion(suggestion)}
+                onClick={() => (window.location.href = '/' + suggestion.id + '')}
                 className="suggestion-item"
               >
                 {suggestion.label}
@@ -112,18 +121,28 @@ const Header = ({}) => {
 
         </div>
       )}
-      
-      {logged ? (
-        <div className="perfil">
-          Fulano De Tal
-          <img src={logo} alt="Poli Advisor" className="perfil-image" />
-        </div>
-      ) : ( 
-        <div className="login-button">
-        <button onClick={() => (window.location.href = '/LoginPage')} className="login">
-          Entrar</button>
+      {login ? (
+        <div>
+
+          {logged ? (
+          <div className="perfil">
+            <a href="/UserPage"  id="logo-button" className="button-Logo">Fulano de Tal</a>
+            <img src={logo} alt="Poli Advisor" className="perfil-image" />
           </div>
+        ) : ( 
+          <div className="login-button">
+          <button onClick={() => (window.location.href = '/LoginPage')} className="login">
+            Entrar</button>
+            </div>
+        )}
+
+        </div>
+      ) : (
+        <div>
+
+        </div>
       )}
+  
     </header>
   );
 };

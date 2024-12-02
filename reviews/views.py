@@ -12,6 +12,7 @@ from rest_framework import status
 from .serializers import UserSerializer
 from django.contrib.auth import authenticate, login
 
+
 class BestDisciplinesAPIView(APIView):
     def get(self, request):
         disciplines = (
@@ -37,6 +38,29 @@ class BestDisciplinesAPIView(APIView):
                 selected_ids.add(discipline['discipline__id'])
 
         return Response(best_disciplines)
+    
+class DisciplineAPIView(APIView):
+    def get_disc_info(self, request, id):
+        disciplines = (
+            UserTookDiscipline.objects
+            .values('discipline__id', 'discipline__name', 'discipline__discipline_code')
+            .annotate(
+                note_teaching=Avg('note_teaching'),
+            
+            )
+            .order_by('-avg_difficulty', '-avg_teaching', '-avg_material')
+        )
+
+        discipline_right = []
+        selected_ids = set()
+
+        for discipline in disciplines:
+
+            if discipline['discipline__id'] == discipline[id]:
+                disciplines.append(discipline_right)
+                selected_ids.add(discipline['discipline__id'])
+
+        return Response(discipline_right)
 
 @api_view(['GET'])
 @login_required
@@ -47,6 +71,9 @@ def get_user_info(request):
     return Response({
         'username': user_data.username,
         'fullname': user_data.fullname,
+        'email': user_data.email,
+        'nusp': user_data.nusp,
+        'start_date': user_data.start_date,
         'photo': user_data.user_photo.url if user_data.user_photo else None,
         'initials': user_data.initials() 
     })
@@ -86,7 +113,6 @@ class UserRegisterView(APIView):
             serializer.save()
             return Response({"message": "Usuário registrado com sucesso!"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
