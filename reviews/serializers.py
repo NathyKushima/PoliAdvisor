@@ -67,6 +67,13 @@ class CommentSerializer(serializers.ModelSerializer):
         validated_data['user'] = self.context['user']  # Inject user into validated_data
         return Comment.objects.create(**validated_data)
     
+    def validate(self, data):
+        if not data.get('comment_content'):
+            raise serializers.ValidationError({"comment_content": "Este campo é obrigatório."})
+        if not data.get('discipline'):
+            raise serializers.ValidationError({"discipline": "Este campo é obrigatório."})
+        return data
+    
 class UserTookDisciplineSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTookDiscipline

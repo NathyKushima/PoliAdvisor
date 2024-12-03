@@ -32,7 +32,7 @@ h2 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   text-align: center;
   align-content: center;
-  height: 630px;
+  height: 650px;
 }
   
 .card-home h3 {
@@ -54,17 +54,18 @@ h2 {
   font-family: 'Work Sans', sans-serif;
   margin-top: 100px;
   padding: 10px 15px;
-  background-color: #1D3557;
+  background-color: #1e4174ff;;
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
+  margin-top: 1px;
 }
 
 .comments-button:hover {
   background-color: #d4af37;
-  color: #000000;
+  color: #1e4174ff;
 }
 
 .comments-button:focus {

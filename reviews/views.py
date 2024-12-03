@@ -3,17 +3,11 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
-from django.db.models import Q
-from .models import Department, Discipline, UserTookDiscipline, User, Comment, UserCurtesComment, UserDenouncedComment
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.db.models import Q, Avg, Count, F, ExpressionWrapper
-from django.db.models import Avg, Count
-from rest_framework import status
-from .serializers import UserSerializer, CommentSerializer, UserTookDisciplineSerializer
 from django.contrib.auth import authenticate, login
-
-
+from django.db.models import Q, Avg, Count, F, ExpressionWrapper
+from django.contrib.auth.decorators import login_required
+from .serializers import UserSerializer, CommentSerializer, UserTookDisciplineSerializer
+from .models import Department, Discipline, UserTookDiscipline, User, Comment, UserCurtesComment, UserReportsComment
 
 class BestDisciplinesAPIView(APIView):
     def get(self, request):
@@ -131,7 +125,8 @@ def create_comment(request):
 @login_required
 def like_comment(request, comment_id):
     print(f'I\'M ON LIKE_COMMENT, THE ID IS: {comment_id}')
-    like, created = UserCurtesComment.objects.get_or_create(user=request.user.id, comment=comment_id)
+    comment = Comment.objects.get(id=comment_id)
+    like, created = UserCurtesComment.objects.get_or_create(user=request.user, comment=comment)
 
     if created:
         return Response({"message": "Comentário curtido com sucesso!"}, status=status.HTTP_201_CREATED)
@@ -147,14 +142,41 @@ def delete_comment(request, comment_id):
 
 @api_view(['POST'])
 @login_required
-def denounce_comment(request, comment_id):
-    comment = Comment.objects.get(id=comment_id)
-    denounce, created = UserDenouncedComment.objects.get_or_create(user=request.user, comment=comment, 
+def report_comment(request):
+    comment = Comment.objects.get(id=request.data.get('comment_id'))
+    denounce, created = UserReportsComment.objects.get_or_create(user=request.user, comment=comment, 
                                                                    denounce_text=request.data.get('denounce_text', None))
-    if denounce:
+    if created:
         return Response({"message": "Comentário denunciado com sucesso!"}, status=status.HTTP_201_CREATED)
     else:
         return Response({"message": "Você já denunciou este comentário."}, status=status.HTTP_200_OK)
+    
+@api_view(['POST'])
+@login_required
+def evaluate_discipline(request, discipline_id):
+    discipline = Discipline.objects.get(id=discipline_id)
+    user = User.objects.get(id=request.user.id)
+
+    # Separate lookup fields and fields to update
+    lookup_fields = {'user': user, 'discipline': discipline}
+    update_fields = {
+        'semester_completed': request.data.get('semester_completed'),
+        'note_teaching': request.data.get('note_teaching'),
+        'note_material': request.data.get('note_material'),
+        'note_difficulty': request.data.get('note_difficulty'),
+    }
+
+    # Use update_or_create with correct parameters
+    update, created = UserTookDiscipline.objects.update_or_create(
+        defaults=update_fields,
+        **lookup_fields
+    )
+
+    if created:
+        return Response({"message": "Avaliação criada com sucesso!"}, status=status.HTTP_201_CREATED)
+    else:
+        return Response({"message": "Avaliação atualizada com sucesso!"}, status=status.HTTP_200_OK)
+
 
 
 def search(request):

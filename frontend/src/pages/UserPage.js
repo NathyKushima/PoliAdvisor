@@ -39,7 +39,7 @@ const UserPage = () => {
       <div className="user-page-container">
         <div className="profile-photo-container">
             {userData.photo ? (
-              <img src={userData.photo} alt={`${userData.fullname}'s profile`} className="profile-photo" />
+              <img src={userData.photo} alt={`${userData.fullname}'s profile`} onerror="this.src='image/lupa.png';" className="profile-photo" />
             ) : (
               <div className="profile-photo-placeholder">{userData.initials}</div>
             )}

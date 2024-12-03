@@ -12,4 +12,7 @@ urlpatterns = [
     path('discipline/<int:discipline_id>/', discipline_details, name='discipline_details'),
     path('comments/<int:discipline_id>/', views.get_discipline_comments, name='discipline-comment'),
     path('like/<int:comment_id>/', views.like_comment, name='like-comment'),
+    path('create-comment/', views.create_comment, name='create-comment'),
+    path('evaluate/<int:discipline_id>/', views.evaluate_discipline , name='evaluate-discipline'),
+    path('report-comment/', views.report_comment, name='report-comment'),
 ]

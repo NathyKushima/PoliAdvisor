@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import './LoginPage.css';
 import Header from '../components/Header.js';
@@ -7,7 +8,8 @@ import logo from '../logo_2_Poli.png';
 const LoginPage = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [message, setMessage] = useState(''); // For displaying login errors or success
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const csrftoken = getCookie('csrftoken'); // Read the CSRF token from the browser's cookies
     axios.defaults.headers['X-CSRFToken'] = csrftoken; // Set CSRF token header globally
@@ -33,6 +35,7 @@ const LoginPage = () => {
 
     // Send login request with the correct field (username, password)
     try {
+      
       const response = await axios.post(
         'http://127.0.0.1:8000/api/login/', 
         {username, password}, 
@@ -41,6 +44,7 @@ const LoginPage = () => {
       
       setMessage('Login realizado com sucesso!');  // Handle success message
       console.log(response.data);  // You can handle the response here as needed
+      navigate('/');
     } catch (error) {
       if (error.response && error.response.data) {
         setMessage(`Erro: ${error.response.data.detail || 'Falha ao fazer login.'}`);
@@ -86,14 +90,11 @@ const LoginPage = () => {
           </button>
         </form>
         {message && <div className="message">{message}</div>} {/* Display message */}
-        <button className="btn-new" onClick={() => alert('Criar conta')}>
+        <button className="btn-new" onClick={() => (window.location.href = '/Register')}>
           Criar conta
         </button>
-        <button className="btn-password" onClick={() => (window.location.href = '/ForgotPasswor')}>
+        <button className="btn-password" onClick={() => (window.location.href = '/ForgotPassword')}>
           Esqueci a senha
-        </button>
-        <button className="btn-password" onClick={() => (window.location.href = '/UserPage')}>
-          Entrar Logado
         </button>
       </div>
       </div>

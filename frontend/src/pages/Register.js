@@ -150,7 +150,7 @@ const Register = () => {
             <p>Nenhum arquivo adicionado</p>
           )}
         </div>
-        <button type="submit">Finalizar Cadastro</button>
+        <button href="/" type="submit">Finalizar Cadastro</button>
         <p>{message}</p>
       </form>
     </div>

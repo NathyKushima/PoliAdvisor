@@ -130,6 +130,7 @@ class UserTookDiscipline(models.Model):
         (2020, "2020"),
         (2021, "2021"),
         (2022, "2022"),
+        (2023, "2023"),
         (2024, "2024"),
     ]
 
@@ -156,7 +157,7 @@ class UserCurtesComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liked_comments")
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="likes")
 
-class UserDenouncedComment(models.Model):
+class UserReportsComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="denounced_comments")
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="denounces")
     denounce_text = models.TextField()

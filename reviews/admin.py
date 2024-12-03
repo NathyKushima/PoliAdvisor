@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Department, Discipline, Course, CourseCoversSubjects, UserTakesCourse, UserTookDiscipline, Comment, UserCurtesComment, UserDenouncedComment
+from .models import User, Department, Discipline, Course, CourseCoversSubjects, UserTakesCourse, UserTookDiscipline, Comment, UserCurtesComment, UserReportsComment
 
 admin.site.register(User)
 
@@ -25,4 +25,4 @@ admin.site.register(UserTakesCourse)
 admin.site.register(UserTookDiscipline)
 admin.site.register(Comment)
 admin.site.register(UserCurtesComment)
-admin.site.register(UserDenouncedComment)
+admin.site.register(UserReportsComment)

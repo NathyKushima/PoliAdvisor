@@ -141,7 +141,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True 
 
 MEDIA_URL = '/images/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'public/images/profile_photos')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'frontend/public/images')
 
 # Emails
 

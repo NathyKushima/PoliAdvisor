@@ -21,11 +21,11 @@ const Header = ({}) => {
       try {
         const response = await axios.get(`/api/search/?q=${searchValue}`);
         const departmentSuggestions = response.data.departments.map((dept) => ({
-          id: `dept-${dept.id}`,
+          id: `/department/${dept.id}`,
           label: `${dept.department_name} (${dept.department_code})`,
         }));
         const disciplineSuggestions = response.data.disciplines.map((disc) => ({
-          id: `${disc.id}`,
+          id: `/discipline/${disc.id}`,
           label: `${disc.name} (${disc.discipline_code})`,
         }));
 
@@ -72,9 +72,9 @@ const Header = ({}) => {
 
   let home;
   if (pathname === "/") {
-    home = true;
-  } else {
     home = false;
+  } else {
+    home = true;
   }
 
   let login;
@@ -131,7 +131,7 @@ const Header = ({}) => {
             {suggestions.map((suggestion) => (
               <li
                 key={suggestion.id}
-                onClick={() => (window.location.href = '/discipline/' + suggestion.id)}
+                onClick={() => (window.location.href = suggestion.id)}
                 className="suggestion-item"
               >
                 {suggestion.label}

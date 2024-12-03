@@ -8,6 +8,7 @@ import AlreadySendFP from './pages/AlreadySendFP.js';
 import Register from './pages/Register.js';
 import UserPage from './pages/UserPage.js';
 import Discipline from './pages/DisciplineDetails.js';
+import EvaluationPage from './components/Evaluate.js';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="Register" element={<Register/>}/>
             <Route path="userPage" element={<UserPage/>}/>
             <Route path="discipline/:id" element={<Discipline />}/>
+            <Route path="evaluation/:id" element={<EvaluationPage/>}/>
           </Routes>
         </Router>
       </main>
