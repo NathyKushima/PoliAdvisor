@@ -151,3 +151,14 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST = config('EMAIL_HOST')
+
+ALLOWED_HOSTS = ['*']
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+import dj_database_url
+DATABASES = {
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3'  
+    )
+}
