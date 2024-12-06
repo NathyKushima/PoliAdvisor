@@ -18,13 +18,13 @@ function App() {
         <Router>
           <Routes>
             <Route path="" element={<Home/>}/>
-            <Route path="LoginPage" element={<LoginPage />} />
+            <Route path="LoginPage" element={<LoginPage/>} />
             <Route path="ForgotPassword" element={<ForgotPassword/>}/>
             <Route path="NewPassword" element={<NewPassword/>}/>
             <Route path="AlreadySendFP" element={<AlreadySendFP/>}/>
             <Route path="Register" element={<Register/>}/>
             <Route path="userPage" element={<UserPage/>}/>
-            <Route path="discipline/:id" element={<Discipline />}/>
+            <Route path="discipline/:id" element={<Discipline/>}/>
             <Route path="evaluation/:id" element={<EvaluationPage/>}/>
           </Routes>
         </Router>

@@ -1,5 +1,5 @@
 {
-  "proxy": "https://poliadvisor.onrender.com",
+  "proxy": "https://poliadvisor-1.onrender.com",
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
