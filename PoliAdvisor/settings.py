@@ -156,7 +156,8 @@ EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST = config('EMAIL_HOST')
 
 
-ALLOWED_HOSTS = ['https://poliadvisor.onrender.com']
+ALLOWED_HOSTS = ['https://poliadvisor-1.onrender.com/',
+                 'https://poliadvisor.onrender.com/']
 
 CORS_ALLOW_ALL_ORIGINS = True
 
