@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-py6c%n4qld&bjcfx@mt-9t)8a#_ldz%)4bt30(y5t3x$09m&m+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", ".onrender.com"]
+ALLOWED_HOSTS = ["127.0.0.1", ".onrender.com", 'poliadvisor.onrender.com']
 
 CSRF_TRUSTED_ORIGINS = ["https://*.onrender.com/", "http://localhost:3000",  "http://127.0.0.1:3000", 'https://poliadvisor-1.onrender.com', 'https://poliadvisor.onrender.com']
 
