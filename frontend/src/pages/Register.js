@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import logo from "../logo_Poliadvisor.png";
 import './Register.css'
+import Header from '../components/Header.js';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -52,7 +53,7 @@ const Register = () => {
     });
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/register/", formDataObj, {
+      const response = await axios.post("https://poliadvisor.onrender.com/api/register/", formDataObj, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setMessage("Cadastro realizado com sucesso!");
@@ -67,15 +68,7 @@ const Register = () => {
 
   return (
     <div>
-      <header className="header">
-        <div className="logo">
-          <img src={logo} alt="Poli Advisor" className="logo-image" />
-          <h1 className="button-logo" id="logo-button">
-            Poli Advisor
-          </h1>
-        </div>
-      </header>
-
+      <Header/>
       <form onSubmit={handleSubmit}>
         <h1>Cadastro</h1>
         <input
@@ -91,10 +84,9 @@ const Register = () => {
           onChange={handleChange}
         />
         <div>
-          <label>Curso:</label>
           <select name="course" value={formData.course} onChange={handleChange}>
             <option value="">Selecione o curso</option>
-            <option value="ENG_A">Engenharia Ambiental</option>
+            <option value="ENG_AMBIENTAL">Engenharia Ambiental</option>
             <option value="ENG_CIVIL">Engenharia Civil</option>
             <option value="ENG_COMPUTACAO">Engenharia da Computação</option>
             <option value="ENG_MINAS">Engenharia de Minas</option>
@@ -108,13 +100,16 @@ const Register = () => {
             <option value="ENG_QUIMICA">Engenharia Química</option>
             <option value="ENG_MATERIAIS">Engenharia de Materiais</option>
           </select>
+          <select name="start_date" value={formData.start_date} onChange={handleChange}>
+            <option value="">Ano de Ingresso</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+          </select>
         </div>
-        <input
-          type="date"
-          name="start_date"
-          placeholder="Data de Início"
-          onChange={handleChange}
-        />
         <input
           type="email"
           name="email"
@@ -155,7 +150,7 @@ const Register = () => {
             <p>Nenhum arquivo adicionado</p>
           )}
         </div>
-        <button type="submit">Finalizar Cadastro</button>
+        <button href="/" type="submit">Finalizar Cadastro</button>
         <p>{message}</p>
       </form>
     </div>

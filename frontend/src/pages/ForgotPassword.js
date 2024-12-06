@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './ForgotPassword.css';
-import '../components/Header.css';
 import Header from '../components/Header.js';
 
 const ForgotPassword = () => {
@@ -34,7 +33,7 @@ const ForgotPassword = () => {
                 required
               />
             </div>
-            <button onClick={() => (window.location.href = 'http://127.0.0.1:8000/email/')} className="btn-forgot">
+            <button onClick={() => (window.location.href = 'https://poliadvisor.onrender.com/email/')} className="btn-forgot">
               Enviar
             </button>
           </form>

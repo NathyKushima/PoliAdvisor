@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Header.css';
 import logo from '../logo_Poliadvisor2.png';
 import { Route, Link, Routes, useLocation } from 'react-router-dom';
 
 const Header = ({}) => {
+  const [userData, setUserData] = useState(null); // Set initial state to null
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const location = useLocation();
+  const [error, setError] = useState(''); // For handling errors
   const { hash, pathname, search } = location;
 
   const handleSearch = async (e) => {
@@ -19,11 +21,11 @@ const Header = ({}) => {
       try {
         const response = await axios.get(`/api/search/?q=${searchValue}`);
         const departmentSuggestions = response.data.departments.map((dept) => ({
-          id: `dept-${dept.id}`,
+          id: `/department/${dept.id}`,
           label: `${dept.department_name} (${dept.department_code})`,
         }));
         const disciplineSuggestions = response.data.disciplines.map((disc) => ({
-          id: `disc-${disc.id}`,
+          id: `/discipline/${disc.id}`,
           label: `${disc.name} (${disc.discipline_code})`,
         }));
 
@@ -40,25 +42,52 @@ const Header = ({}) => {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [userDataRes] = await Promise.all([
+          axios.get('api/user-info/', { withCredentials: true }),
+        ]);
+        setUserData(userDataRes.data);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+        setError('Erro ao carregar os dados.');
+      }
+    };
+    fetchData();
+  }, []);
+
   const handleSelectSuggestion = (suggestion) => {
     setQuery(suggestion.label);
     setSuggestions([]);
     setDropdownVisible(false);
   };
 
-  let home;
-  if (pathname === "/") {
-    home = true;
-  } else {
-    home = false;
-  }
-
-  const id = "";
   let logged;
-  if (id === "") {
+  if (!userData) {
     logged = false;
   } else {
     logged = true;
+  }
+
+  let home;
+  if (pathname === "/") {
+    home = false;
+  } else {
+    home = true;
+  }
+
+  let login;
+  if (pathname === "/LoginPage") {
+    login = true;
+  } else if (pathname === "/ForgotPassword") {
+    login = true;
+  } else if (pathname === "/NewPassword"){
+    login = true;
+  } else if (pathname === "/AlreadySendFP"){
+    login = true;
+  } else {
+    login = false;
   }
 
   return (
@@ -67,7 +96,11 @@ const Header = ({}) => {
         <img src={logo} alt="Poli Advisor" className="logo-image" />
         <a href="/"  id="logo-button" className="button-Logo"><h1>Poli Advisor</h1></a>
       </div>
-      {home ? (
+      {login ? (
+        <div>
+
+        </div>
+      ) : (
         <div className="search-bar">
         <input
           type="text"
@@ -98,7 +131,7 @@ const Header = ({}) => {
             {suggestions.map((suggestion) => (
               <li
                 key={suggestion.id}
-                onClick={() => handleSelectSuggestion(suggestion)}
+                onClick={() => (window.location.href = suggestion.id)}
                 className="suggestion-item"
               >
                 {suggestion.label}
@@ -107,16 +140,16 @@ const Header = ({}) => {
           </ul>
         )}
       </div>
+      )}      
+      {login ? (
+        <div>
+        </div>
       ) : (
         <div>
-
-        </div>
-      )}
-      
       {logged ? (
         <div className="perfil">
-          Fulano De Tal
-          <img src={logo} alt="Poli Advisor" className="perfil-image" />
+          <a href="/UserPage"  id="logo-button" className="button-Logo">{userData.initials}</a>
+          <img src={userData.photo} onClick={() => (window.location.href = '/UserPage')} alt={userData.initials} className="perfil-image" />
         </div>
       ) : ( 
         <div className="login-button">
@@ -124,6 +157,8 @@ const Header = ({}) => {
           Entrar</button>
           </div>
       )}
+      </div>
+    )}
     </header>
   );
 };

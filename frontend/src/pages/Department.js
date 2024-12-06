@@ -29,12 +29,12 @@ const Home = () => {
     <div>
       <Header/>
         <div className="home">
-        <h2>Melhores avaliadas</h2>
+        <h2>Melhores avaliadas - </h2>
         <div className="disciplines">
         {disciplines.map((discipline, index) => (
           <div className="card-home" key={index}>
             <a href={'/discipline/' + discipline.discipline__id}><h3>{discipline.discipline__discipline_code} - {discipline.discipline__name}</h3></a>
-            <p><strong>Avaliação Geral:</strong> {((discipline.avg_teaching + discipline.avg_material - discipline.avg_difficulty + 10) / 3).toFixed(1)}/10</p>
+            <p><strong>Avaliação Geral:</strong> {((discipline.avg_teaching + discipline.avg_material + discipline.avg_difficulty) / 3).toFixed(1)}/10</p>
             <p><strong>Didática:</strong> {discipline.avg_teaching.toFixed(1)}/10</p>
             <p><strong>Material:</strong> {discipline.avg_material.toFixed(1)}/10</p>
             <p><strong>Dificuldade:</strong> {discipline.avg_difficulty.toFixed(1)}/10</p>

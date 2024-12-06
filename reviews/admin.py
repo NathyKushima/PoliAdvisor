@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Department, Discipline, Course, CourseCoversSubjects, UserTakesCourse, UserTookDiscipline, Comment, UserCurtesComment
+from .models import User, Department, Discipline, Course, CourseCoversSubjects, UserTakesCourse, UserTookDiscipline, Comment, UserCurtesComment, UserReportsComment
 
 admin.site.register(User)
 
@@ -10,7 +10,7 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 @admin.register(Discipline)
 class DisciplineAdmin(admin.ModelAdmin):
-    list_display = ('name', 'discipline_code', 'get_department_code')
+    list_display = ('id', 'name', 'discipline_code', 'get_department_code')  
     search_fields = ('name', 'discipline_code')  
     list_filter = ('department',)
 
@@ -25,3 +25,4 @@ admin.site.register(UserTakesCourse)
 admin.site.register(UserTookDiscipline)
 admin.site.register(Comment)
 admin.site.register(UserCurtesComment)
+admin.site.register(UserReportsComment)

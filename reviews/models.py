@@ -4,7 +4,6 @@ from django.contrib.auth.models import BaseUserManager
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password, nusp, fullname, course, start_date, **extra_fields):
-        # Set default values for mandatory fields if not provided
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
 
@@ -35,13 +34,12 @@ class CustomUserManager(BaseUserManager):
         return user
     
     def create_superuser(self, username, email, password, **extra_fields):
-        # Set default values for mandatory fields if not provided
         extra_fields.setdefault('fullname', 'Superuser Fullname')
         extra_fields.setdefault('start_date', '2024-01-01')
         extra_fields.setdefault('course', 'ENG_MECATRONICA')
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('nusp', 12345678)
+        extra_fields.setdefault('nusp', 123256678)
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
@@ -67,11 +65,20 @@ class User(AbstractUser):
         ('ENG_MATERIAIS', 'Engenharia de Materiais'),
     ]
 
+    YEAR_CHOICES = [
+        (2019, "2019"),
+        (2020, "2020"),
+        (2021, "2021"),
+        (2022, "2022"),
+        (2023, "2023"),
+        (2024, "2024"),
+    ]
+    
     objects = CustomUserManager()
     nusp = models.IntegerField(unique=True)
     fullname = models.CharField(max_length=100)
     course = models.CharField(max_length=20, choices=COURSE_CHOICES, default='ENG_MECATRONICA')
-    start_date = models.DateField()
+    start_date = models.IntegerField("Ano de inicio", choices=YEAR_CHOICES)
     user_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
 
     def initials(self):
@@ -83,8 +90,8 @@ class User(AbstractUser):
 
 class Department(models.Model):
     id = models.AutoField(primary_key=True)
-    department_code = models.CharField(max_length=45, unique=True)
-    department_name = models.CharField(max_length=45)
+    department_code = models.CharField(max_length=256, unique=True)
+    department_name = models.CharField(max_length=256)
 
     def __str__(self):
         return self.department_code
@@ -92,8 +99,8 @@ class Department(models.Model):
 class Discipline(models.Model):
     id = models.AutoField(primary_key=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name="disciplines")
-    discipline_code = models.CharField(max_length=45, unique=True)
-    name = models.CharField(max_length=45)
+    discipline_code = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=256)
     class_credits = models.IntegerField()
     work_credits = models.IntegerField()
 
@@ -102,7 +109,7 @@ class Discipline(models.Model):
 
 class Course(models.Model):
     id = models.AutoField(primary_key=True)
-    course_name = models.CharField(max_length=45)
+    course_name = models.CharField(max_length=256)
 
     def __str__(self):
         return self.course_name
@@ -117,9 +124,19 @@ class UserTakesCourse(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="courses")
 
 class UserTookDiscipline(models.Model):
+
+    YEAR_CHOICES = [
+        (2019, "2019"),
+        (2020, "2020"),
+        (2021, "2021"),
+        (2022, "2022"),
+        (2023, "2023"),
+        (2024, "2024"),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="disciplines_taken")
     discipline = models.ForeignKey(Discipline, on_delete=models.CASCADE, related_name="users")
-    semester_completed = models.DateField()
+    semester_completed =  models.IntegerField("Ano em que fez a materia", choices=YEAR_CHOICES)
     note_teaching = models.IntegerField()
     note_material = models.IntegerField()
     note_difficulty = models.IntegerField()
@@ -134,8 +151,13 @@ class Comment(models.Model):
     parent_comment = models.ForeignKey("self", null=True, blank=True, on_delete=models.SET_NULL, related_name="replies")
     comment_content = models.TextField()
     comment_date = models.DateField(auto_now_add=True)
-    status_comment = models.IntegerField()
+    status_comment = models.IntegerField(default=1)
 
 class UserCurtesComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liked_comments")
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="likes")
+
+class UserReportsComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="denounced_comments")
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="denounces")
+    denounce_text = models.TextField()

@@ -5,8 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
+    height: 85vh;
   }
   
   .login-container {
@@ -63,7 +62,7 @@
     color: white;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 15px;
     font-family: 'JetBrains Mono', monospace;
     border-radius: 50px;
     font-weight: bold; 
@@ -74,9 +73,9 @@
     padding: 10px;
     background-color: white;
     color: #1e4174ff;
-    border: 1px solid #1e4174ff;
+    border: 2px solid #1e4174ff;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 15px;
     font-family: 'JetBrains Mono', monospace;
     border-radius: 50px;
     font-weight: bold; 

@@ -19,13 +19,18 @@
 
   a {
     text-decoration: none;
-    color: #dda94b;
+    color: rgb(255, 255, 255);
+
   }
 
   .logo {
     display: flex;
     align-items: center;
     gap: 30px;
+  }
+
+  .logo h1{
+    color: #dda94b;
   }
   
   .logo-image {
@@ -47,7 +52,7 @@
     width: fit-content;
     height: 27px;
     margin-left: 0px;
-    margin-right: 335px;
+    margin-right: 340px;
     }
 
 
@@ -105,7 +110,7 @@
     font-weight: bold;
 }
 .perfil{
-  margin-left: -168px;
+  margin-left: 0px;
   display: flex;
   align-items: center;
   color: #ffffff;
@@ -114,10 +119,12 @@
 }
 
 .perfil-image{
-  width: 70px;
-  height: 50px;
+  width: 65px;
+  height: 65px;
   margin-right: 60px;
   margin-left: 20px;
+  border-radius: 35px;
+  object-fit: cover;
 }
 
 .suggestions-list {
@@ -144,5 +151,11 @@
 }
 
 .suggestion-item:hover {
-  background-color: black;
+  background-color: #dda94b;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo-image {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
