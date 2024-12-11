@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", ".onrender.com", 'poliadvisor.onrender.com', 'poliadvisor-1.onrender.com']
 
-CSRF_TRUSTED_ORIGINS = ["https://*.onrender.com/", "http://localhost:3000",  "http://127.0.0.1:3000", 'https://poliadvisor-1.onrender.com', 'https://poliadvisor.onrender.com']
+CSRF_TRUSTED_ORIGINS = ["https://*.onrender.com/*", "http://localhost:3000",  "http://127.0.0.1:3000", 'https://poliadvisor-1.onrender.com', 'https://poliadvisor.onrender.com']
 
 
 # Application definition
@@ -143,7 +143,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "https://poliadvisor-1.onrender.com",
-    "https://poliadvisor.onrender.com"]
+    "https://poliadvisor.onrender.com",
+    "https://poliadvisor.onrender.com/*",
+    "https://poliadvisor-1.onrender.com/*",
+    " https://poliadvisor.onrender.com/api/best-disciplines"]
 
 
 MEDIA_URL = '/images/'
