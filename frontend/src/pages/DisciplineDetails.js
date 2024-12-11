@@ -12,6 +12,7 @@ const DisciplineDetails = () => {
     const [discipline, setDiscipline] = useState(null);
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [commentContent, setCommentContent] = useState("");
 
     const likeComment = async (commentId) => {
       try {
@@ -52,10 +53,10 @@ const DisciplineDetails = () => {
     if (parts.length === 2) return parts.pop().split(';').shift();
   };
 
-  const DisciplinePage = ({ discipline }) => {
-    const navigate = useNavigate();
+  const handleReplySubmit = () => {
+    create_comment(null, commentContent, disciplineId);
+    setCommentContent("");
   };
-
   useEffect(() => {
     const fetchDisciplineDetails = async () => {
       try {
@@ -237,10 +238,23 @@ const DisciplineDetails = () => {
               <div className="graph">
               <Line data={data} />
               </div>
-            <div className="card-comments">
-            <h2>Comentários</h2>
-            <CommentsList comments={comments} />
-        </div>
+              <div className="card-comments">
+              <h2>Comentários</h2>
+              
+              </div>
+              <div className="comment_box">
+                <textarea
+                    className="comment_textarea"
+                    placeholder="Escreva seu comentário..."
+                    value={commentContent}
+                    onChange={(e) => setCommentContent(e.target.value)}
+                ></textarea>
+                <button className="comment_button" onClick={handleReplySubmit}>
+                    Comentar
+                </button>
+              </div>
+              <CommentsList comments={comments} />
+              
           </div>
       </div>
     </div>

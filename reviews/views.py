@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q, Avg, Count, F, ExpressionWrapper
 from django.contrib.auth.decorators import login_required
 from .serializers import UserSerializer, CommentSerializer, UserTookDisciplineSerializer
@@ -227,6 +227,11 @@ class LoginView(APIView):
             return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+class LogoutView(APIView):
+    def post(self, request):
+        logout(request)
+        return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
         
 def discipline_details(request, discipline_id):
     try:

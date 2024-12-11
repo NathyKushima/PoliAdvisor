@@ -8,6 +8,21 @@ const UserPage = () => {
   const [userInteractions, setUserInteractions] = useState(null);
   const [error, setError] = useState(''); // For handling errors
 
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('api/logout/', {}, { withCredentials: true });
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -22,7 +37,10 @@ const UserPage = () => {
         setError('Erro ao carregar os dados.');
       }
     };
+
     fetchData();
+    const csrftoken = getCookie('csrftoken'); // Read the CSRF token from the browser's cookies
+    axios.defaults.headers['X-CSRFToken'] = csrftoken; // Set CSRF token header globally
   }, []);
 
   if (error) {
@@ -62,13 +80,18 @@ const UserPage = () => {
           <p><strog>Curtidas dadas:</strog> {userInteractions.likes_given_count}</p>
         </div>
         <button onClick={() => (window.location.href = '/EditProfile')} className="edit-profile">Edite Perfil</button>
+        <button onClick={handleLogout} className="edit-profile">Logout</button>
         <div className="user-comments-container">
         {userInteractions.user_comments.map((comment, index) => (
           <div className="comment-container" key={index}>
+            <div className="comment_header">
             <p><strong>Comentário:</strong> {comment.comment_content}</p>
-            <p><strong>Publicado em:</strong> {comment.comment_date}</p>
-            <p><strong>Disciplina:</strong> {comment.discipline_name}</p>
-            <p><strong>Curtidas:</strong> {comment.likes_count}</p>
+            </div>
+            <div className="comment_footer">
+              <p><strong>Publicado em:</strong> {comment.comment_date}</p>
+              <p><strong>Disciplina:</strong> {comment.discipline_name}</p>
+              <p><strong>Curtidas:</strong> {comment.likes_count}</p>
+            </div>
           </div>
         ))}
         </div>

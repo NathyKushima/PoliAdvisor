@@ -38,8 +38,6 @@ const Home = () => {
             <p><strong>Didática:</strong> {discipline.avg_teaching.toFixed(1)}/10</p>
             <p><strong>Material:</strong> {discipline.avg_material.toFixed(1)}/10</p>
             <p><strong>Dificuldade:</strong> {discipline.avg_difficulty.toFixed(1)}/10</p>
-            <p>{discipline.reviews_count} avaliações</p>
-            <button onClick={() => (window.location.href = '/discipline/' + discipline.discipline__id)} className="comments-button">Comentários ({discipline.reviews_count})</button>
           </div>
         ))}  
       </div>
