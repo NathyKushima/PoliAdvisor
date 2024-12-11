@@ -146,7 +146,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://poliadvisor.onrender.com",
     "https://poliadvisor.onrender.com/*",
     "https://poliadvisor-1.onrender.com/*",
-    " https://poliadvisor.onrender.com/api/best-disciplines"]
+    "https://poliadvisor.onrender.com/api/best-disciplines"]
 
 
 MEDIA_URL = '/images/'
